@@ -4,7 +4,7 @@ import Image from "next/image";
 
 function Header() {
   return (
-    <nav className=" shadow-glass-1 px-4 rounded-lg bg-white bg-opacity-50">
+    <div className=" shadow-glass-1 px-4 rounded-lg bg-white bg-opacity-50">
       <ul className="flex justify-between items-center">
         <li className="p-3">
           <Link href={"/"}>
@@ -15,7 +15,7 @@ function Header() {
           <Link href={"/rules"}>Rules</Link>
         </li>
       </ul>
-    </nav>
+    </div>
   );
 }
 
