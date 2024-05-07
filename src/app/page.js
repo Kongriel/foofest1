@@ -1,10 +1,13 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Test from "./components/Test";
 
 export default function Home() {
   return (
-    <main className="">
-      <h1>Hello World</h1>
+    <main>
+      <h1>Hello World! try click on Bands</h1>
     </main>
   );
 }
