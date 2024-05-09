@@ -9,17 +9,17 @@ module.exports = {
       backdropFilter: {
         // Ensure backdrop-filter utilities are enabled
         none: "none",
-        blur: "blur(20px)", // Adjust the pixel value based on the desired blur amount
+        blur: "blur(30px)", // Adjust the pixel value based on the desired blur amount
       },
       rotate: {
         8: "8deg",
         9: "-8deg",
       },
       colors: {
-        "bono-10": "#E3DAC9", // Assuming Bone color as an example hex code
-        "bono-50": "rgba(227, 218, 201, 0.5)", // Bone with 50% opacity
+        "bono-10": "#E5EBF2", // Assuming Bone color as an example hex code
+        "bono-50": "#384455", // Bone with 50% opacity
         hovercolor: "#ff0000",
-        "taupe-10": "#483c32", // Red color for hover state
+        "taupe-10": "#384455", // Red color for hover state
       },
 
       fontFamily: {

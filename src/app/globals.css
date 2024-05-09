@@ -19,7 +19,7 @@
 body {
   color: rgb(var(--foreground-rgb));
 
-  background: linear-gradient(to right, #483c32, rgba(90, 76, 66, 0.905)); /* Transition left to right */
+  background: linear-gradient(to right, rgba(28, 37, 55, 1), rgba(78, 92, 112, 1));
 }
 
 .blur {
