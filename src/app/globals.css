@@ -18,11 +18,10 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: #483c32;
+
+  background: linear-gradient(to right, #483c32, rgba(90, 76, 66, 0.905)); /* Transition left to right */
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.blur {
+  @apply backdrop-blur-lg;
 }

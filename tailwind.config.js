@@ -6,14 +6,22 @@ module.exports = {
       fontSize: {
         xxs: "0.65rem", // for example, choose the size that fits your design
       },
+      backdropFilter: {
+        // Ensure backdrop-filter utilities are enabled
+        none: "none",
+        blur: "blur(20px)", // Adjust the pixel value based on the desired blur amount
+      },
       rotate: {
         8: "8deg",
+        9: "-8deg",
       },
       colors: {
-        bone: "#E3DAC9", // Assuming Bone color as an example hex code
-        "bone-50": "rgba(227, 218, 201, 0.5)", // Bone with 50% opacity
-        hovercolor: "#ff0000", // Red color for hover state
+        "bono-10": "#E3DAC9", // Assuming Bone color as an example hex code
+        "bono-50": "rgba(227, 218, 201, 0.5)", // Bone with 50% opacity
+        hovercolor: "#ff0000",
+        "taupe-10": "#483c32", // Red color for hover state
       },
+
       fontFamily: {
         bebas: ['"Bebas Neue"'], // Ensure the font is properly included in your project
       },

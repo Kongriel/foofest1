@@ -1,34 +1,51 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
+"use client";
+import React, { useState, useEffect } from "react";
 
-function Header() {
+const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Effect to toggle blur class on body
+  useEffect(() => {
+    // Get the main content element by ID
+    const mainContent = document.getElementById("main-content");
+
+    if (isOpen) {
+      mainContent.classList.add("blur");
+    } else {
+      mainContent.classList.remove("blur");
+    }
+  }, [isOpen]);
+  const toggleMenu = () => setIsOpen(!isOpen);
+
   return (
-    <div className="bg-white bg-opacity-50 shadow-lg px-4 py-2 rounded-lg flex justify-between items-center">
-      <Link href="/" passHref>
-        <div className="flex items-center cursor-pointer">
-          <Image src="/diversa.svg" alt="Diversa Logo" width={140} height={75} />
+    <header className="bg-black text-white flex justify-end z-30 items-center p-4 relative">
+      {/* Hamburger Icon */}
+      <div className="text-2xl cursor-pointer z-30" onClick={toggleMenu}>
+        &#9776;
+      </div>
+
+      {/* Navigation Menu */}
+      <div className={`fixed top-0 right-0 z-20 bg-bono-10 h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} md:w-11/12 w-full`} style={{ clipPath: "ellipse(70% 100% at 100% 50%)" }}>
+        <div className="flex flex-col items-end justify-center h-full text-right pr-10">
+          <a href="#" className="mt-4 mb-2 text-taupe-10  text-3xl">
+            Billetter
+          </a>
+          <a href="#" className="my-2 text-taupe-10  text-3xl">
+            Nyheder
+          </a>
+          <a href="#" className="my-2 text-taupe-10  text-3xl">
+            Line-up
+          </a>
+          <a href="#" className="my-2 text-taupe-10  text-3xl">
+            FAQ
+          </a>
+          <a href="#" className="my-2 text-taupe-10  text-3xl">
+            Experience
+          </a>
         </div>
-      </Link>
-      <ul className="flex space-x-4">
-        <li>
-          <Link href="/bands" className="text-xl hover:text-blue-700 cursor-pointer">
-            Bands
-          </Link>
-        </li>
-        <li>
-          <Link href="/booking" className="text-xl hover:text-blue-700 cursor-pointer">
-            Tickets
-          </Link>
-        </li>
-        <li>
-          <Link href="/stages" className="text-xl hover:text-blue-700 cursor-pointer">
-            Stages
-          </Link>
-        </li>
-      </ul>
-    </div>
+      </div>
+    </header>
   );
-}
+};
 
 export default Header;
