@@ -54,7 +54,7 @@ const FollowButton = ({ onClick }) => {
       <div ref={circleRef} className="absolute h-14 w-14 rounded-full hover:border-blue-500 border-2 border-gray-500 opacity-0">
         {/* Circle initially invisible */}
       </div>
-      <div ref={hamburgerRef} className="absolute text-4xl">
+      <div ref={hamburgerRef} className="absolute text-bono-10 text-4xl">
         = {/* Hamburger always visible */}
       </div>
     </div>

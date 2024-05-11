@@ -1,6 +1,7 @@
 // FollowButton.js
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
+import Link from "next/link";
 
 const FollowButton = ({ onClick }) => {
   const containerRef = useRef(null);
@@ -50,13 +51,14 @@ const FollowButton = ({ onClick }) => {
   }, []);
 
   return (
-    <div ref={containerRef} onClick={onClick} className="z-30 flex justify-center items-center text-center text-nowrap relative w-80 h-20 cursor-pointer">
-      <div ref={circleRef} className="absolute flex justify-center items-center h-24 w-96 text-sm rounded-xl border-2 hover:border-blue-600 border-gray-500"></div>
-      <div ref={hamburgerRef} className="text-bono-10 absolute hover:border-blue-600 text-2xl">
-        {" "}
-        Se endnu flere fede artister her
+    <Link href="/bands" className="z-30 flex justify-center items-center text-center text-nowrap relative w-80 h-20 cursor-pointer">
+      <div ref={containerRef} onClick={onClick} className="absolute inset-0 flex justify-center items-center">
+        <div ref={circleRef} className="absolute flex justify-center items-center h-24 w-96 text-sm rounded-xl border-2 hover:border-blue-600 border-gray-500"></div>
+        <div ref={hamburgerRef} className="text-bono-10 absolute hover:border-blue-600 text-2xl">
+          Se endnu flere fede artister her
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
