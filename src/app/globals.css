@@ -19,7 +19,7 @@
 body {
   color: rgb(var(--foreground-rgb));
 
-  background: linear-gradient(to right, rgba(28, 37, 55, 1), rgba(78, 92, 112, 1));
+  background: linear-gradient(to right, rgba(157, 192, 210, 1), rgba(236, 247, 251, 1));
 }
 
 .blur {

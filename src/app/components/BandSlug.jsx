@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 useEffect(() => {
   console.log("Router or searchParams not initialized yet:", !searchParams);
   if (!searchParams) {

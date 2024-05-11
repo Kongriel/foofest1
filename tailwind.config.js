@@ -16,10 +16,10 @@ module.exports = {
         9: "-8deg",
       },
       colors: {
-        "bono-10": "#E5EBF2", // Assuming Bone color as an example hex code
+        "bono-10": "#36454D", // Assuming Bone color as an example hex code
         "bono-50": "#384455", // Bone with 50% opacity
         hovercolor: "#ff0000",
-        "taupe-10": "#384455", // Red color for hover state
+        "taupe-10": "#BBD4E0", // Red color for hover state
       },
 
       fontFamily: {

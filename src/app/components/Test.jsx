@@ -67,7 +67,7 @@ const Schedule = () => {
           <option value="Jotunheim">Jotunheim</option>
         </select>
       </div>
-      <h1 className="text-center text-3xl font-bold my-4">Festival Schedule for {selectedDay.toUpperCase()}</h1>
+      <h1 className="text-center text-5xl font-semibold text-bono-10 my-4">Festival Schedule for {selectedDay.toUpperCase()}</h1>
       {error && <p className="text-red-500">{error}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {bandsForDayAndScene.map((band) => (

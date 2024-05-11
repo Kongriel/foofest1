@@ -20,7 +20,7 @@ const Header = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <header className=" text-white flex justify-end items-center px-2 mt-3 h-24 relative">
+    <header className=" text-bono-10 flex justify-end items-center px-2 mt-3 h-24 relative">
       {/* Hamburger Icon */}
       <div className="z-10">
         <Knap />
