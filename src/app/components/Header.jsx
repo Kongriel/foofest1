@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import FollowButton from "./FollowButton";
+import Knap from "./Knap";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,10 +20,13 @@ const Header = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <header className=" text-white flex justify-end z-30 items-center p-4 relative">
+    <header className=" text-white flex justify-end items-center px-2 mt-3 h-24 relative">
       {/* Hamburger Icon */}
-      <div className="text-2xl cursor-pointer z-30" onClick={toggleMenu}>
-        &#9776;
+      <div className="z-10">
+        <Knap />
+      </div>
+      <div className="z-30">
+        <FollowButton onClick={toggleMenu} />
       </div>
 
       {/* Navigation Menu */}
@@ -33,7 +38,7 @@ const Header = () => {
           <a href="#" className="my-2 text-taupe-10  text-3xl">
             Nyheder
           </a>
-          <a href="#" className="my-2 text-taupe-10  text-3xl">
+          <a href="/bands" className="my-2 text-taupe-10  text-3xl">
             Line-up
           </a>
           <a href="#" className="my-2 text-taupe-10  text-3xl">
