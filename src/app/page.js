@@ -12,7 +12,7 @@ export default function Home() {
     <main>
       <HeroText />
       <Hero />
-      <div className="flex justify-center mt-10 mb-8">
+      <div className="flex justify-center mt-32 mb-44">
         <Knap1 />
       </div>
     </main>

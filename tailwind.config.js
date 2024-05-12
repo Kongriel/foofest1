@@ -16,6 +16,7 @@ module.exports = {
         9: "-8deg",
       },
       colors: {
+        "knap-10": "rgba(54, 69, 77, 0.1);",
         "bono-10": "#36454D", // Assuming Bone color as an example hex code
         "bono-50": "#384455", // Bone with 50% opacity
         hovercolor: "#ff0000",
