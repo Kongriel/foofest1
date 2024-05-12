@@ -16,15 +16,14 @@ module.exports = {
         9: "-8deg",
       },
       colors: {
-        "knap-10": "rgba(54, 69, 77, 0.1);",
-        "bono-10": "#36454D", // Assuming Bone color as an example hex code
-        "bono-50": "#384455", // Bone with 50% opacity
+        "knap-10": "rgba(54, 69, 77, 0.1)",
+        "bono-10": "#36454D", // Assuming Bono color as an example hex code
+        "bono-50": "#384455", // Bono with 50% opacity
         hovercolor: "#ff0000",
-        "taupe-10": "#BBD4E0", // Red color for hover state
+        "taupe-10": "#BBD4E0", // Taupe color for other uses
       },
-
       fontFamily: {
-        bebas: ['"Bebas Neue"'], // Ensure the font is properly included in your project
+        bebas: ['"Bebas Neue"', "sans-serif"], // Added sans-serif as a fallback
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

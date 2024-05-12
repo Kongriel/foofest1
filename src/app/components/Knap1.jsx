@@ -28,19 +28,19 @@ const FollowButton = ({ onClick }) => {
       const relX = e.clientX - rect.left;
       const relY = e.clientY - rect.top;
       // Calculating the movement with a max of 200px in either direction
-      const moveX = ((relX - rect.width / 2) / rect.width) * 100;
-      let moveY = ((relY - rect.height / 2) / rect.height) * 150; // scale adjusted to limit the movement up to 200px
+      const moveX = ((relX - rect.width / 2) / rect.width) * 50;
+      let moveY = ((relY - rect.height / 2) / rect.height) * 50; // scale adjusted to limit the movement up to 200px
       moveY = Math.max(Math.min(moveY, 70), -70); // Ensures that moveY stays within -100px to +100px range
 
       gsap.to(content, {
         duration: 0.3,
-        x: moveX,
-        y: moveY,
+        x: moveX / 2,
+        y: moveY / 2,
       });
       gsap.to(hamburger, {
         duration: 0.3,
-        x: moveX / 2, // Half the horizontal movement for subtle effect
-        y: moveY / 2, // Half the vertical movement
+        x: moveX / 1, // Half the horizontal movement for subtle effect
+        y: moveY / 1, // Half the vertical movement
       });
     };
 
@@ -56,13 +56,15 @@ const FollowButton = ({ onClick }) => {
   }, []);
 
   return (
-    <Link href="/bands" className="flex justify-center items-center text-center text-nowrap  relative w-80 h-20 cursor-pointer">
-      <div ref={containerRef} onClick={onClick} className="absolute inset-0 flex justify-center items-center">
-        <div ref={contentRef} className="absolute bg-knap-10 flex justify-center items-center h-24 w-96 text-sm rounded-xl border-2 hover:border-blue-600 border-gray-500"></div>
-        <div ref={hamburgerRef} className="text-bono-10  absolute hover:border-blue-600 text-2xl">
-          Se endnu flere fede artister her
+    <Link href="/bands" passHref>
+      <button className="flex justify-center items-center text-center px-8  text-nowrap relative w-80 h-20 cursor-pointer">
+        <div ref={containerRef} onClick={onClick} className="absolute  cursor-pointer inset-0 flex justify-center items-center">
+          <div ref={contentRef} className="absolute bg-knap-10 cursor-pointer flex justify-center items-center h-20 w-96 text-sm rounded-xl border-2 hover:border-blue-600 border-gray-500"></div>
+          <div ref={hamburgerRef} className="text-bono-10 cursor-pointer absolute hover:border-blue-600 text-2xl">
+            Se endnu flere fede artister her
+          </div>
         </div>
-      </div>
+      </button>
     </Link>
   );
 };
