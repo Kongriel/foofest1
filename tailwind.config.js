@@ -24,6 +24,7 @@ module.exports = {
       },
       fontFamily: {
         bebas: ['"Bebas Neue"', "sans-serif"], // Added sans-serif as a fallback
+        montserrat: ['"Montserrat"', "sans-serif"]
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
