@@ -35,12 +35,12 @@ module.exports = {
   plugins: [],
 
 
-module.exports = 
-{
-  variants: {
-    extend: {
-      inset: ['group-hover'],
-    },
-  },
-}
+// module.exports = 
+// {
+//   variants: {
+//     extend: {
+//       inset: ['group-hover'],
+//     },
+//   },
+// }
 };
