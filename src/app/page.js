@@ -8,6 +8,8 @@ import HeroText from "./components/HeroText";
 import Knap1 from "./components/Knap1";
 import Centertext from "./components/Centertext";
 import Card from "./components/Card";
+import Footer from "./components/Footer";
+
 
 export default function Home() {
   return (
@@ -26,6 +28,8 @@ export default function Home() {
         <Card title="FOOFEST 24" status="REGULAR" price="799,00" />
         <Card title="FOOFEST 24" status="VIP" price="1299,00" />
       </section>
+      <Footer />
     </main>
+    
   );
 }
