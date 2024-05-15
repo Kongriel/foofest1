@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from "react";
-import Link from "next/link"; // Import Link from Next.js
+import Link from "next/link";
 
 function Hero() {
   const [bands, setBands] = useState([]);
   const [error, setError] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 668);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     fetch("https://winter-frill-lemon.glitch.me/bands")
       .then((response) => response.json())
-      .then((data) => setBands(data.slice(0, 17)))
+      .then((data) => {
+        if (data.length >= 14) {
+          const firstThree = [data[9], data[10], data[12]];
+
+          const remaining = data.filter((_, index) => ![9, 10, 12].includes(index));
+
+          setBands([...firstThree, ...remaining.slice(0, 14)]);
+        } else {
+          setBands(data.slice(0, 17));
+        }
+      })
       .catch((error) => setError(error.message));
 
     const handleResize = () => {
@@ -17,6 +27,7 @@ function Hero() {
     };
 
     window.addEventListener("resize", handleResize);
+    handleResize(); // Set initial value
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -35,9 +46,9 @@ function Hero() {
           {firstThree.map((band) => (
             <Link key={band.slug} href={`/bands/${band.slug}`}>
               <div className="group relative text-center cursor-pointer">
-                <div className="block w-36 h-36 lg:w-80 lg:h-80 md:w-56 md:h-56 overflow-hidden rounded-full mx-auto border-4 border-transparent border-white hover:border-blue-400 transition-all duration-200 ease-in-out transform hover:-rotate-8">
-                  <img src={band.logo} alt={band.name} className="w-full h-full object-cover rounded-full group-hover:opacity-55" loading="eager" />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <div className="block w-36 h-36 lg:w-80 lg:h-80 md:w-56 md:h-56 overflow-hidden rounded-full mx-auto border-4 border-transparent border-white hover:border-blue-600 hover:-rotate-8 transition-all duration-200 ease-in-out transform hover:scale-105">
+                  <img src={band.logo} alt={band.name} className="w-full h-full object-cover rounded-full group-hover:opacity-50 transition-opacity duration-200 ease-in-out" loading="eager" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
                     <span className="text-white font-semibold text-sm md:text-xl">{band.name}</span>
                   </div>
                 </div>
@@ -51,10 +62,10 @@ function Hero() {
           <div key={`row-${rowIndex}`} className="flex justify-center items-center space-x-3">
             {row.map((band, index) => (
               <Link key={band.slug} href={`/bands/${band.slug}`} passHref>
-                <div className={`group text-xxs relative text-center cursor-pointer ${index % 2 !== 0 ? "mt-[3em] hover:-rotate-9 transition-all duration-200 ease-in-out transform" : "hover:-rotate-8 transition-all duration-300 ease-in-out transform"}`}>
-                  <div className="block w-24 h-24 md:w-28 md:h-28 lg:w-40 lg:h-40 overflow-hidden rounded-full mx-auto border-4 border-transparent border-white hover:border-blue-400 transition-all duration-300 ease-in-out transform">
-                    <img src={band.logo} alt={band.name} className="w-full h-full object-cover rounded-full group-hover:opacity-55" loading="eager" />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <div className={`group text-xxs relative text-center cursor-pointer ${index % 2 !== 0 ? "mt-[3em] hover:-rotate-9 transition-all duration-200 ease-in-out transform hover:scale-105" : "hover:-rotate-8 transition-all duration-300 ease-in-out transform hover:scale-105"}`}>
+                  <div className="block w-24 h-24 md:w-28 md:h-28 lg:w-40 lg:h-40 overflow-hidden rounded-full mx-auto border-4 border-transparent border-white hover:border-blue-600 transition-all duration-300 ease-in-out transform">
+                    <img src={band.logo} alt={band.name} className="w-full h-full object-cover rounded-full group-hover:opacity-50 transition-opacity duration-200 ease-in-out" loading="eager" />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
                       <span className="text-white text-xxs md:text-lg">{band.name}</span>
                     </div>
                   </div>

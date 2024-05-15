@@ -15,7 +15,7 @@ module.exports = {
         8: "8deg",
         9: "-8deg",
       },
-         
+
       colors: {
         "knap-10": "rgba(54, 69, 77, 0.1)",
         "bono-10": "#36454D", // Assuming Bono color as an example hex code
@@ -25,7 +25,7 @@ module.exports = {
       },
       fontFamily: {
         bebas: ['"Bebas Neue"', "sans-serif"], // Added sans-serif as a fallback
-        montserrat: ['"Montserrat"', "sans-serif"]
+        montserrat: ['"Montserrat"', "sans-serif"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -35,13 +35,12 @@ module.exports = {
   },
   plugins: [],
 
-
-// module.exports = 
-// {
-//   variants: {
-//     extend: {
-//       inset: ['group-hover'],
-//     },
-//   },
-// }
+  // module.exports =
+  // {
+  //   variants: {
+  //     extend: {
+  //       inset: ['group-hover'],
+  //     },
+  //   },
+  // }
 };
