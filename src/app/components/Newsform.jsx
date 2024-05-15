@@ -6,7 +6,7 @@ function Newsform() {
       <h2 className="text-2xl font-bebas font-bold mb-4">TILMELD NYHEDSBREV</h2>
       <form>
         <div className="mb-4">
-          <input type="text" className="w-full bg-knap-10 p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="Navn*" />
+          <input type="text" className="w-96 bg-knap-10 p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="Navn*" />
         </div>
         <div className="mb-4">
           <input type="email" className="w-full  bg-knap-10 p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="E-mail*" />
