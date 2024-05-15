@@ -37,6 +37,7 @@ export default function Home() {
       <section>
         <Sponsor />
       </section>
+      <Footer />
     </main>
   );
 }
