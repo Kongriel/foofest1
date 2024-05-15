@@ -15,6 +15,7 @@ module.exports = {
         8: "8deg",
         9: "-8deg",
       },
+         
       colors: {
         "knap-10": "rgba(54, 69, 77, 0.1)",
         "bono-10": "#36454D", // Assuming Bono color as an example hex code
