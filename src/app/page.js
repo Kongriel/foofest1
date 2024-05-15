@@ -8,6 +8,9 @@ import HeroText from "./components/HeroText";
 import Knap1 from "./components/Knap1";
 import Centertext from "./components/Centertext";
 import Card from "./components/Card";
+import Newsletter from "./components/Newsletter";
+import Newsform from "./components/Newsform";
+import Sponsor from "./components/Sponsor";
 
 export default function Home() {
   return (
@@ -25,6 +28,9 @@ export default function Home() {
       <section className="flex flex-wrap justify-center items-center gap-8 w-fit p-12 mx-auto">
         <Card title="FOOFEST 24" status="REGULAR" price="799,00" />
         <Card title="FOOFEST 24" status="VIP" price="1299,00" />
+      </section>
+      <section>
+        <Sponsor />
       </section>
     </main>
   );
