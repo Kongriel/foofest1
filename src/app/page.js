@@ -11,8 +11,8 @@ import Card from "./components/Card";
 import Newsletter from "./components/Newsletter";
 import Newsform from "./components/Newsform";
 import Sponsor from "./components/Sponsor";
-import Knap2 from "./components/Knap2";
-import Clubjoin from "./components/Clubjoin";
+import Footer from "./components/Footer"; 
+
 
 export default function Home() {
   return (
@@ -31,15 +31,10 @@ export default function Home() {
         <Card title="FOOFEST 24" status="REGULAR" price="799,00" />
         <Card title="FOOFEST 24" status="VIP" price="1299,00" />
       </section>
-      <div className="flex justify-center mt-8 mb-20">
-        <Knap2 />
-      </div>
-      <section className="flex mt-16 mb-16 gap-8 justify-center">
-        <Clubjoin />
-      </section>
-      <section className="mt-16 mb-16">
+      <section>
         <Sponsor />
       </section>
     </main>
+    
   );
 }
