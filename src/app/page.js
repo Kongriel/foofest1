@@ -15,12 +15,14 @@ import Footer from "./components/Footer";
 import Clubjoin from "./components/Clubjoin";
 import Knap2 from "./components/Knap2";
 
+
 export default function Home() {
   return (
     <main>
       <section className="">
         <HeroText />
         <Hero />
+        <Image />
       </section>
       <div className="flex justify-center mt-16 mb-44">
         <Knap1 />
