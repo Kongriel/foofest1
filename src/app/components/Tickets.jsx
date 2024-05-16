@@ -167,10 +167,10 @@ const Tickets = () => {
   };
 
   return (
-    <div className="min-h-screen text-bono-10 flex flex-col items-center justify-center bg-gray-50 py-10">
+    <div className="min-h-screen text-bono-10 flex flex-col items-center justify-center  py-10">
       <h1 className="text-4xl text-bono-10 font-bold mb-8">Select Your Tickets and Camping Options</h1>
       {error && <div className="text-red-500 mb-4">{error}</div>}
-      <form className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleNextClick}>
+      <form className="bg-knap-10 p-8 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleNextClick}>
         <div className="flex flex-col items-center mb-8">
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">Regular Tickets (799,-)</label>
@@ -200,7 +200,7 @@ const Tickets = () => {
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">Prebook Camping Spot</label>
             <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)} className="p-2 border border-gray-300 rounded">
-              <option value="">Select an option</option>
+              <option value="">Select a camping area</option>
               {campingOptions.map((option) => (
                 <option key={option.area} value={option.area}>
                   {option.area} ({option.available} available spots)

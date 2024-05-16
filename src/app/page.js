@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Test from "./components/Test";
 import Hero from "./components/Hero";
@@ -15,14 +14,12 @@ import Footer from "./components/Footer";
 import Clubjoin from "./components/Clubjoin";
 import Knap2 from "./components/Knap2";
 
-
 export default function Home() {
   return (
     <main>
-      <section className="">
+      <section className=" mt-16">
         <HeroText />
         <Hero />
-        <Image />
       </section>
       <div className="flex justify-center mt-16 mb-44">
         <Knap1 />
@@ -34,7 +31,7 @@ export default function Home() {
         <Card title="FOOFEST 24" status="REGULAR" price="799,00" />
         <Card title="FOOFEST 24" status="VIP" price="1299,00" />
       </section>
-      <section>
+      <section className="flex justify-center mt-6 mb-32">
         <Knap2 />
       </section>
       <section>
