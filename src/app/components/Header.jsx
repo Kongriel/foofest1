@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <header className="flex justify-between items-center px-2 mt-3 h-24 relative text-bono-10">
       {/* Welcome Text */}
-      <div className="text-lg">Welcome to Foofest</div>
+      <div className="text-lg">Velkommen til FooFest '24</div>
 
       {/* Foofest Logo */}
       <div className="absolute left-1/2 z-30 transform -translate-x-1/2">
