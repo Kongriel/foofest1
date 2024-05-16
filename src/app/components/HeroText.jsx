@@ -8,7 +8,7 @@ function HeroText() {
         <img 
           src="/Foofest-logo-2.png" 
           alt="Foofest Logo" 
-          className="w-3/5 mb-4"
+          className="w-1/2 mb-4"
         />
         {/* <div className="text-8xl font-semibold font-bebas">Foofest´24</div>
         <div className="w-38 font-montserrat">
