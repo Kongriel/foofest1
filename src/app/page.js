@@ -13,6 +13,7 @@ import Newsform from "./components/Newsform";
 import Sponsor from "./components/Sponsor";
 import Footer from "./components/Footer";
 import Clubjoin from "./components/Clubjoin";
+import Knap2 from "./components/Knap2";
 
 export default function Home() {
   return (
@@ -32,12 +33,14 @@ export default function Home() {
         <Card title="FOOFEST 24" status="VIP" price="1299,00" />
       </section>
       <section>
+        <Knap2 />
+      </section>
+      <section>
         <Clubjoin />
       </section>
       <section>
         <Sponsor />
       </section>
-      <Footer />
     </main>
   );
 }

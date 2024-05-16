@@ -1,12 +1,8 @@
-"use client";
-
 import React from "react";
-export default function Home() 
+import Tickets from "../components/tickets";
 
-return (
-    <div>
-      <div>Hello</div>
-      <div>World</div>
-    </div>
-  );
-  
+function page() {
+  return <Tickets />;
+}
+
+export default page;
