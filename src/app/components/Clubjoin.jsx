@@ -27,9 +27,9 @@ function Clubjoin() {
   };
 
   return (
-    <div className="text-bono-10 py-12 px-6 md:px-24 lg:px-36">
+    <div className="text-bono-10 py-12 justify-center px-6 md:px-24 lg:px-36">
       <h1 className="text-4xl md:text-5xl font-bebas font-bold text-center mb-6">JOIN FOOCLUB</h1>
-      <p className="text-center font-montserrat text-xl mb-8 w-full max-w-4xl mx-auto">Vil du være helt up to date på FOOFests nyheder og nyeste artistannonceringer? Vil du have mulighed for at deltage i konkurrencer i ny og næ, mens du får adgang til FOO Eventkalenderen hele året rundt? Så tilmeld dig FOOClub!</p>
+      <p className="text-center font-montserrat text-xl mb-12 w-full max-w-4xl mx-auto">Vil du være helt up to date på FOOFests nyheder og nyeste artistannonceringer? Vil du have mulighed for at deltage i konkurrencer i ny og næ, mens du får adgang til FOO Eventkalenderen hele året rundt? Så tilmeld dig FOOClub!</p>
 
       <div className="grid grid-cols-1 justify-center sm:grid-cols-2 lg:grid-cols-3 gap-1 mb-12">
         <div className="text-center">
@@ -39,7 +39,7 @@ function Clubjoin() {
           <p className="font-semibold">SPÆNDENDE NYHEDER</p>
         </div>
         <div className="text-center">
-          <p className="font-semibold">INVITATION TIL AIA EVENTS</p>
+          <p className="font-semibold">INVITATION TIL FOO EVENTS</p>
         </div>
         <div className="text-center">
           <p className="font-semibold">TILBUD FRA PARTNERE</p>

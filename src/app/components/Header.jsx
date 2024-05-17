@@ -25,7 +25,7 @@ const Header = () => {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="flex justify-between items-center px-2 mt-3 h-24 relative text-bono-10">
+    <header className="flex justify-between rounded-xl bg-knap-10 items-center px-2 h-24 relative text-bono-10">
       {/* Welcome Text */}
       <div className="text-lg">Velkommen til FooFest '24</div>
 

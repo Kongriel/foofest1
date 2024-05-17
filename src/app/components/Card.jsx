@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 
 function Card({ title, status, subtitle, price }) {
-  // State to manage the stroke color
-
-  // State to manage the stroke color
   const [textStrokeColor, setTextStrokeColor] = useState("#007bff");
 
   // Define outline style based on state
