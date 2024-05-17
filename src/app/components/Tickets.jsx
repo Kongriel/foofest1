@@ -15,6 +15,7 @@ const Tickets = () => {
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
   const [formErrors, setFormErrors] = useState({});
   const timerRef = useRef(null);
+  const [isCampingAvailable, setIsCampingAvailable] = useState(true);
 
   useEffect(() => {
     fetch("https://winter-frill-lemon.glitch.me/available-spots")
@@ -26,6 +27,7 @@ const Tickets = () => {
       })
       .then((data) => {
         setCampingOptions(data);
+        setIsCampingAvailable(data.some((option) => option.available > 0));
       })
       .catch((error) => setError(error.message));
   }, []);
@@ -144,6 +146,11 @@ const Tickets = () => {
     }
     if (!selectedOption) {
       errors.camping = "A camping spot must be selected.";
+    } else {
+      const selectedCampingOption = campingOptions.find((option) => option.area === selectedOption);
+      if (selectedCampingOption && selectedCampingOption.available === 0) {
+        errors.camping = "Selected camping spot is not available.";
+      }
     }
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -167,7 +174,7 @@ const Tickets = () => {
   };
 
   return (
-    <div className="min-h-screen text-bono-10 flex flex-col items-center justify-center  py-10">
+    <div className="min-h-screen text-bono-10 flex flex-col items-center justify-center py-10">
       <h1 className="text-4xl text-bono-10 font-bold mb-8">Select Your Tickets and Camping Options</h1>
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <form className="bg-knap-10 p-8 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleNextClick}>
@@ -242,7 +249,7 @@ const Tickets = () => {
             <p className="text-sm text-gray-500">* Includes a fixed booking fee of 99,-</p>
           </div>
           {reservationId && timeLeft > 0 && <p className="text-red-500 mb-4">You have {formatTime(timeLeft)} to complete your reservation.</p>}
-          <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-lg w-full hover:bg-blue-700">
+          <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-lg w-full hover:bg-blue-700" disabled={!isCampingAvailable}>
             Next
           </button>
         </div>
