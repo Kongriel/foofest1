@@ -60,7 +60,7 @@ const Header = () => {
               Line-up
             </div>
           </Link>
-          <Link href="#" passHref>
+          <Link href="/faq" passHref>
             <div onClick={closeMenu} className="my-2 text-taupe-10 text-3xl cursor-pointer">
               FAQ
             </div>
