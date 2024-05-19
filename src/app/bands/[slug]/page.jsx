@@ -9,6 +9,7 @@ const BandPage = () => {
   const [loadingSchedule, setLoadingSchedule] = useState(true);
   const [error, setError] = useState(null);
   const [schedule, setSchedule] = useState(null);
+  const [currentStage, setCurrentStage] = useState(null);
 
   const { slug } = useParams();
 
@@ -20,6 +21,25 @@ const BandPage = () => {
     fri: "Friday",
     sat: "Saturday",
     sun: "Sunday",
+  };
+
+  const getCurrentTime = () => {
+    const now = new Date();
+    return now.toTimeString().slice(0, 5);
+  };
+
+  const checkIfLive = (schedule, bandName) => {
+    const currentTime = getCurrentTime();
+    const today = new Date().toLocaleDateString("en-US", { weekday: "short" }).toLowerCase();
+
+    if (schedule[today]) {
+      for (const act of schedule[today]) {
+        if (act.act === bandName && currentTime >= act.start && currentTime < act.end) {
+          return act.stage;
+        }
+      }
+    }
+    return null;
   };
 
   useEffect(() => {
@@ -69,6 +89,10 @@ const BandPage = () => {
           });
         });
         setSchedule(bandSchedule);
+
+        // Check if the band is currently live
+        const stage = checkIfLive(bandSchedule, band.name);
+        setCurrentStage(stage);
       } catch (error) {
         setError(`Failed to fetch or parse schedule data: ${error.message}`);
       } finally {
@@ -89,8 +113,8 @@ const BandPage = () => {
   const playingDays = schedule ? Object.keys(schedule).map((day) => dayNames[day]) : [];
 
   return (
-    <div className="flex mt-12 items-center justify-center ">
-      <div className="flex flex-col items-center text-center">
+    <div className="flex flex-col mt-12 items-center justify-center ">
+      <div className="flex flex-col items-center text-center relative">
         <div className="flex items-center justify-center space-x-4 mb-4">
           <h1 className="text-7xl text-bono-10 font-bold">
             {band.name}
@@ -106,6 +130,7 @@ const BandPage = () => {
               </span>
             )}
           </h1>
+          {currentStage && <div className="absolute top-0 right-0 bg-green-500 text-white text-sm font-bold rounded-full px-4 py-1">Live at {currentStage} right now</div>}
         </div>
         <div className="mb-4 mt-8">
           <Image src={imageUrl} alt={band.name} width={500} height={500} className="rounded-xl" />

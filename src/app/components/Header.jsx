@@ -65,9 +65,9 @@ const Header = () => {
               FAQ
             </div>
           </Link>
-          <Link href="#" passHref>
+          <Link href="/Live" passHref>
             <div onClick={closeMenu} className="my-2 text-taupe-10 text-3xl cursor-pointer">
-              Experience
+              Live Now
             </div>
           </Link>
         </div>
