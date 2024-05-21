@@ -8,6 +8,16 @@ const Schedule = () => {
     return days[dayOfWeek];
   };
 
+  const dayNames = {
+    mon: "Monday",
+    tue: "Tuesday",
+    wed: "Wednesday",
+    thu: "Thursday",
+    fri: "Friday",
+    sat: "Saturday",
+    sun: "Sunday",
+  };
+
   const [bands, setBands] = useState([]);
   const [schedule, setSchedule] = useState({});
   const [selectedDay, setSelectedDay] = useState(getCurrentDay());
@@ -56,7 +66,7 @@ const Schedule = () => {
       <div className="flex justify-center space-x-4 my-4">
         {["mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((day) => (
           <button key={day} onClick={() => setSelectedDay(day)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            {day.toUpperCase()}
+            {dayNames[day].toUpperCase()}
           </button>
         ))}
         <select onChange={(e) => setSelectedScene(e.target.value)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -67,17 +77,28 @@ const Schedule = () => {
           <option value="Jotunheim">Jotunheim</option>
         </select>
       </div>
-      <h1 className="text-center text-5xl font-semibold text-bono-10 my-4">Festival Schedule for {selectedDay.toUpperCase()}</h1>
+      <h1 className="text-center text-6xl font-semibold font-bebas text-bono-10 my-12">
+        FOOFEST Schedule
+        <span
+          className="ml-4 font-bebas"
+          style={{
+            WebkitTextStroke: "1px black",
+            color: "transparent",
+          }}
+        >
+          {dayNames[selectedDay].toUpperCase()}
+        </span>
+      </h1>
       {error && <p className="text-red-500">{error}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {bandsForDayAndScene.map((band) => (
-          <div key={band.slug} className="max-w-sm mx-auto bg-black rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-101">
-            <div style={{ width: "450px", height: "450px", position: "relative" }}>
-              <Image src={`/${band.logo}`} alt={`${band.name} logo`} layout="fill" objectFit="cover" />
+          <div key={band.slug} className="max-w-sm mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-101">
+            <div style={{ width: "370px", height: "370px", position: "relative" }}>
+              <Image src={band.logo.startsWith("http") ? band.logo : `/${band.logo}`} alt={`${band.name} logo`} layout="fill" objectFit="cover" />
             </div>
             <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2 text-white">{band.name}</div>
-              <p className="text-gray-400">
+              <div className="font-bold text-xl mb-2 text-bono-10">{band.name}</div>
+              <p className="text-bono-10">
                 Genre: {band.genre}
                 <br />
                 Time: {band.start} - {band.end} on {band.scene}
