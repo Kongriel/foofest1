@@ -148,12 +148,8 @@ const Tickets = () => {
       errors.camping = "A camping spot must be selected.";
     } else {
       const selectedCampingOption = campingOptions.find((option) => option.area === selectedOption);
-      if (selectedCampingOption) {
-        if (selectedCampingOption.available === 0) {
-          errors.camping = "Selected camping spot is not available.";
-        } else if (regularTickets + vipTickets > selectedCampingOption.available) {
-          errors.camping = `Selected camping spot only has ${selectedCampingOption.available} spots available.`;
-        }
+      if (selectedCampingOption && selectedCampingOption.available === 0) {
+        errors.camping = "Selected camping spot is not available.";
       }
     }
     setFormErrors(errors);

@@ -1,13 +1,44 @@
 import React, { useState } from "react";
 
+// Define Supabase endpoint and API key
+const SUPABASE_URL = "https://uheqbjthhbqzdpxflvdl.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoZXFianRoaGJxemRweGZsdmRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYyODQ1OTYsImV4cCI6MjAzMTg2MDU5Nn0.syrFaYAcqHuqHdRg8Yko3CbK-HVmSxta7Cf_u56gEns";
+
+// Function to submit data to Supabase
+const submitToSupabase = async (name, email) => {
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/club`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        Prefer: "return=representation", // Ensure the response returns the newly inserted record
+      },
+      body: JSON.stringify({ name, email }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Failed to submit form");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error.message || "Failed to submit form");
+  }
+};
+
 function Clubjoin() {
   const [nameFocused, setNameFocused] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [formError, setFormError] = useState("");
+  const [formSuccess, setFormSuccess] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name) {
       setFormError("Navn is required");
@@ -22,8 +53,21 @@ function Clubjoin() {
       return;
     }
     setFormError("");
-    // Submit the form
-    alert("Form submitted successfully!");
+
+    try {
+      await submitToSupabase(name, email);
+      setFormSuccess("Form submitted successfully!");
+      setName("");
+      setEmail("");
+
+      // Clear the success message after 4 seconds
+      setTimeout(() => {
+        setFormSuccess("");
+      }, 4000);
+    } catch (error) {
+      console.error("Supabase insert error:", error);
+      setFormError("An error occurred while submitting the form. Please try again.");
+    }
   };
 
   return (
@@ -66,6 +110,7 @@ function Clubjoin() {
           </label>
         </div>
         {formError && <div className="text-red-500 mb-4">{formError}</div>}
+        {formSuccess && <div className="text-green-500 mb-4">{formSuccess}</div>}
         <div className="mb-4 flex items-start">
           <input type="checkbox" className="mt-1 mr-2" required />
           <label className="text-sm">
