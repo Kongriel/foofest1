@@ -30,7 +30,7 @@ const Header = () => {
       <div className="text-lg">Velkommen til FooFest '24</div>
 
       {/* Foofest Logo */}
-      <div className="absolute left-1/2 z-30 transform -translate-x-1/2">
+      <div className="absolute left-1/2 transform -translate-x-1/2">
         <Link href="/" passHref>
           <Image src="/Foofest-logo-2.png" alt="Foofest Logo" width={100} height={100} />
         </Link>
@@ -39,7 +39,7 @@ const Header = () => {
       {/* Hamburger Icon */}
       <div className="flex items-center space-x-4">
         <Knap />
-        <FollowButton onClick={toggleMenu} className="z-30" />
+        <FollowButton isOpen={isOpen} toggleMenu={toggleMenu} />
       </div>
 
       {/* Navigation Menu */}

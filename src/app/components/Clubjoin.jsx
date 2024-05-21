@@ -56,14 +56,13 @@ function Clubjoin() {
 
     try {
       await submitToSupabase(name, email);
-      setFormSuccess("Form submitted successfully!");
+      setFormSuccess("Succes! You are now a member of the FOOClub");
       setName("");
       setEmail("");
 
-      // Clear the success message after 4 seconds
       setTimeout(() => {
         setFormSuccess("");
-      }, 4000);
+      }, 3500);
     } catch (error) {
       console.error("Supabase insert error:", error);
       setFormError("An error occurred while submitting the form. Please try again.");

@@ -1,7 +1,8 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
+import { Rotate as Hamburger } from "hamburger-react";
 
-const FollowButton = ({ onClick }) => {
+const FollowButton = ({ isOpen, toggleMenu }) => {
   const containerRef = useRef(null);
   const circleRef = useRef(null);
   const hamburgerRef = useRef(null);
@@ -27,8 +28,8 @@ const FollowButton = ({ onClick }) => {
       const relX = e.clientX - rect.left;
       const relY = e.clientY - rect.top;
       const moveX = ((relX - rect.width / 2) / rect.width) * 50;
-      let moveY = ((relY - rect.height / 2) / rect.height) * 50; // scale adjusted to limit the movement up to 200px
-      moveY = Math.max(Math.min(moveY, 70), -70); // Ensures that moveY stays within -100px to +100px range
+      let moveY = ((relY - rect.height / 2) / rect.height) * 50;
+      moveY = Math.max(Math.min(moveY, 70), -70);
 
       gsap.to(circle, {
         duration: 0.3,
@@ -37,8 +38,8 @@ const FollowButton = ({ onClick }) => {
       });
       gsap.to(hamburger, {
         duration: 0.3,
-        x: moveX / 1, // Half the horizontal movement for subtle effect
-        y: moveY / 1, // Half the vertical movement
+        x: moveX / 1,
+        y: moveY / 1,
       });
     };
 
@@ -54,12 +55,12 @@ const FollowButton = ({ onClick }) => {
   }, []);
 
   return (
-    <button ref={containerRef} onClick={onClick} className="z-30 overflow-hidden hover:border-blue-500 flex justify-center items-center relative w-40 h-40 cursor-pointer">
+    <button ref={containerRef} onClick={toggleMenu} className="z-30 overflow-hidden hover:border-blue-500 flex justify-center items-center relative w-40 h-40 cursor-pointer">
       <div ref={circleRef} className="absolute bg-knap-10 h-14 w-14 rounded-full hover:border-blue-500 border-2 border-gray-500 opacity-0">
         {/* Circle initially invisible */}
       </div>
       <div ref={hamburgerRef} className="absolute text-bono-10 text-5xl">
-        = {/* Hamburger always visible */}
+        <Hamburger toggled={isOpen} toggle={toggleMenu} color={isOpen ? "white" : "#36454D"} />
       </div>
     </button>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Test from "./components/Test";
 import Hero from "./components/Hero";
 import HeroText from "./components/HeroText";
@@ -28,8 +28,8 @@ export default function Home() {
         <Centertext />
       </section>
       <section className="flex mb-16 flex-wrap justify-center items-center gap-8 w-fit p-12 mx-auto">
-        <Card title="FOOFEST 24" status="REGULAR" price="799,00" />
-        <Card title="FOOFEST 24" status="VIP" price="1299,00" />
+        <Card title="FOOFEST 24" status="REGULAR" price="799,00" ticketType="regular" />
+        <Card title="FOOFEST 24" status="VIP" price="1299,00" ticketType="VIP" />
       </section>
       <section className="flex justify-center mt-6 mb-32">
         <Knap2 />

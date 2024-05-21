@@ -130,8 +130,8 @@ const BandPage = () => {
               </span>
             )}
           </h1>
-          {currentStage && <div className="absolute top-0 right-0 bg-green-500 text-white text-sm font-bold rounded-full px-4 py-1">Live at {currentStage} right now</div>}
         </div>
+        {currentStage && <div className="bg-green-500 text-white text-sm font-bold rounded-full px-4 py-1 mt-4">Live at {currentStage} right now</div>}
         <div className="mb-4 mt-8">
           <Image src={imageUrl} alt={band.name} width={500} height={500} className="rounded-xl" />
         </div>

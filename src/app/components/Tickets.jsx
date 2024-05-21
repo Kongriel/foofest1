@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
+import Card from "../components/Card"; // Adjust the import based on your file structure
 
 const Tickets = () => {
   const [regularTickets, setRegularTickets] = useState(0);
@@ -16,6 +18,9 @@ const Tickets = () => {
   const [formErrors, setFormErrors] = useState({});
   const timerRef = useRef(null);
   const [isCampingAvailable, setIsCampingAvailable] = useState(true);
+
+  const router = useRouter();
+  const { ticketType } = router.query;
 
   useEffect(() => {
     fetch("https://winter-frill-lemon.glitch.me/available-spots")
@@ -43,6 +48,21 @@ const Tickets = () => {
 
     return () => clearInterval(timerRef.current);
   }, [reservationId, timeLeft]);
+
+  useEffect(() => {
+    console.log("Ticket type:", ticketType); // Debug log
+    if (ticketType === "regular") {
+      setRegularTickets((prev) => {
+        console.log("Incrementing regular tickets"); // Debug log
+        return prev + 1;
+      });
+    } else if (ticketType === "VIP") {
+      setVipTickets((prev) => {
+        console.log("Incrementing VIP tickets"); // Debug log
+        return prev + 1;
+      });
+    }
+  }, [ticketType]);
 
   const reserveSpot = async () => {
     const payload = {
@@ -177,6 +197,10 @@ const Tickets = () => {
     <div className="min-h-screen text-bono-10 flex flex-col items-center justify-center py-10">
       <h1 className="text-4xl text-bono-10 font-bold mb-8">Select Your Tickets and Camping Options</h1>
       {error && <div className="text-red-500 mb-4">{error}</div>}
+      <div className="flex space-x-4 mb-8">
+        <Card title="Regular Ticket" status="Regular" subtitle="Subtitle" price="799" ticketType="regular" />
+        <Card title="VIP Ticket" status="VIP" subtitle="Subtitle" price="1299" ticketType="VIP" />
+      </div>
       <form className="bg-knap-10 p-8 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleNextClick}>
         <div className="flex flex-col items-center mb-8">
           <div className="mb-6 w-full flex justify-between items-center">
