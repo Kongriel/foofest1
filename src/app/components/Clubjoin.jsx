@@ -1,11 +1,14 @@
+"use client";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 // Define Supabase endpoint and API key
 const SUPABASE_URL = "https://uheqbjthhbqzdpxflvdl.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoZXFianRoaGJxemRweGZsdmRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYyODQ1OTYsImV4cCI6MjAzMTg2MDU5Nn0.syrFaYAcqHuqHdRg8Yko3CbK-HVmSxta7Cf_u56gEns";
 
 // Function to submit data to Supabase
-const submitToSupabase = async (name, email) => {
+const submitToSupabase = async (data) => {
+  const { name, email } = data;
   try {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/club`, {
       method: "POST",
@@ -23,42 +26,32 @@ const submitToSupabase = async (name, email) => {
       throw new Error(errorText || "Failed to submit form");
     }
 
-    const data = await response.json();
-    return data;
+    const responseData = await response.json();
+    return responseData;
   } catch (error) {
     throw new Error(error.message || "Failed to submit form");
   }
 };
 
 function Clubjoin() {
-  const [nameFocused, setNameFocused] = useState(false);
-  const [emailFocused, setEmailFocused] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+    watch,
+  } = useForm();
   const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState("");
+  const [nameFocused, setNameFocused] = useState(false);
+  const [emailFocused, setEmailFocused] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!name) {
-      setFormError("Navn is required");
-      return;
-    }
-    if (!email) {
-      setFormError("E-mail is required");
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setFormError("E-mail is invalid");
-      return;
-    }
-    setFormError("");
-
+  const onSubmit = async (data) => {
     try {
-      await submitToSupabase(name, email);
-      setFormSuccess("Succes! You are now a member of the FOOClub");
-      setName("");
-      setEmail("");
+      await submitToSupabase(data);
+      setFormSuccess("Success! You are now a member of the FOOClub");
+      setFormError("");
+      reset(); // Clear the input fields after successful submission
 
       setTimeout(() => {
         setFormSuccess("");
@@ -66,8 +59,12 @@ function Clubjoin() {
     } catch (error) {
       console.error("Supabase insert error:", error);
       setFormError("An error occurred while submitting the form. Please try again.");
+      setFormSuccess("");
     }
   };
+
+  const nameValue = watch("name", "");
+  const emailValue = watch("email", "");
 
   return (
     <div className="text-bono-10 py-12 justify-center px-6 md:px-24 lg:px-36">
@@ -95,23 +92,38 @@ function Clubjoin() {
         </div>
       </div>
 
-      <form className="max-w-lg mx-auto" onSubmit={handleSubmit}>
+      <form className="max-w-lg mx-auto" onSubmit={handleSubmit(onSubmit)}>
         <div className="relative mb-4">
-          <input type="text" className="w-full lg:w-12/12 p-8 bg-knap-10 border border-gray-600 rounded-xl placeholder-transparent focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Navn*" value={name} onChange={(e) => setName(e.target.value)} onFocus={() => setNameFocused(true)} onBlur={() => setNameFocused(false)} required />
-          <label className={`absolute left-4 top-4 text-bono-10 transition-all duration-200 ${nameFocused || name ? "transform -translate-y-3 scale-75" : ""}`} style={{ color: "#36454D" }}>
+          <input type="text" className="w-full lg:w-12/12 p-8 bg-knap-10 border border-gray-600 rounded-xl placeholder-transparent focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Navn*" {...register("name", { required: "Navn is required" })} onFocus={() => setNameFocused(true)} onBlur={() => setNameFocused(false)} />
+          <label className={`absolute left-4 top-4 text-bono-10 transition-all duration-200 ${nameFocused || nameValue ? "transform -translate-y-3 scale-75" : ""}`} style={{ color: "#36454D" }}>
             Navn
           </label>
+          {errors.name && <span className="text-red-500">{errors.name.message}</span>}
         </div>
         <div className="relative mb-4">
-          <input type="email" className="w-full lg:w-128 p-8 bg-knap-10 border border-gray-600 rounded-xl placeholder-transparent focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="E-mail*" value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailFocused(true)} onBlur={() => setEmailFocused(false)} required />
-          <label className={`absolute left-4 top-4 text-bono-10 transition-all duration-200 ${emailFocused || email ? "transform -translate-y-3 scale-75" : ""}`} style={{ color: "#36454D" }}>
+          <input
+            type="email"
+            className="w-full lg:w-128 p-8 bg-knap-10 border border-gray-600 rounded-xl placeholder-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="E-mail*"
+            {...register("email", {
+              required: "E-mail is required",
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "E-mail is invalid",
+              },
+            })}
+            onFocus={() => setEmailFocused(true)}
+            onBlur={() => setEmailFocused(false)}
+          />
+          <label className={`absolute left-4 top-4 text-bono-10 transition-all duration-200 ${emailFocused || emailValue ? "transform -translate-y-3 scale-75" : ""}`} style={{ color: "#36454D" }}>
             E-mail
           </label>
+          {errors.email && <span className="text-red-500">{errors.email.message}</span>}
         </div>
         {formError && <div className="text-red-500 mb-4">{formError}</div>}
         {formSuccess && <div className="text-green-500 mb-4">{formSuccess}</div>}
         <div className="mb-4 flex items-start">
-          <input type="checkbox" className="mt-1 mr-2" required />
+          <input type="checkbox" className="mt-1 mr-2" {...register("agreement", { required: "You must agree to the terms" })} />
           <label className="text-sm">
             Jeg godkender FooFest{" "}
             <a href="#" className="text-blue-500 underline">
@@ -120,8 +132,9 @@ function Clubjoin() {
             . Vi gør opmærksom på, at FooFest er en +18 festival.
           </label>
         </div>
+        {errors.agreement && <span className="text-red-500 mb-4">{errors.agreement.message}</span>}
         <button type="submit" className="w-full p-12 font-bebas text-xl bg-knap-10 border border-gray-600 hover:border-gray-700 text-bono-10 font-bold rounded-xl cursor-pointer">
-          TILMELD DIG FOOCLUB
+          {isSubmitSuccessful ? "Du er nu tilmeldt Fooclub! 🎉" : "TILMELD DIG FOOCLUB"}
         </button>
       </form>
     </div>

@@ -18,6 +18,7 @@
     "react-credit-card-flipping": "^1.0.22",
     "react-credit-cards-2": "^1.0.2",
     "react-dom": "^18",
+    "react-hook-form": "^7.51.5",
     "react-router-dom": "^6.23.0"
   },
   "devDependencies": {
