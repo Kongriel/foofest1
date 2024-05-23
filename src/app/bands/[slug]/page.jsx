@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const BandPage = () => {
   const [band, setBand] = useState(null);
@@ -10,6 +11,8 @@ const BandPage = () => {
   const [error, setError] = useState(null);
   const [schedule, setSchedule] = useState(null);
   const [currentStage, setCurrentStage] = useState(null);
+  // New state for storing similar bands
+  const [similarBands, setSimilarBands] = useState([]);
 
   const { slug } = useParams();
 
@@ -100,7 +103,22 @@ const BandPage = () => {
       }
     };
 
+    // New function to fetch similar bands
+    const fetchSimilarBands = async () => {
+      try {
+        const response = await fetch(`https://winter-frill-lemon.glitch.me/bands`);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        const allBands = await response.json();
+        // Filter bands by the same genre, excluding the current band
+        const filteredBands = allBands.filter((b) => b.genre === band.genre && b.slug !== band.slug).slice(0, 4);
+        setSimilarBands(filteredBands);
+      } catch (error) {
+        setError(`Failed to fetch or parse similar bands: ${error.message}`);
+      }
+    };
+
     fetchSchedule();
+    fetchSimilarBands(); // Fetch similar bands
   }, [band]);
 
   if (loadingBand || loadingSchedule) return <div>Loading...</div>;
@@ -151,6 +169,25 @@ const BandPage = () => {
             ))}
           </div>
         )}
+      </div>
+
+      <div className="mt-12 w-full text-center">
+        <h2 className="text-5xl font-bold mb-8 text-bono-10">More bands in the same genre</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {similarBands.map((similarBand) => (
+            <Link key={similarBand.slug} href={`/bands/${similarBand.slug}`} passHref>
+              <div className="max-w-sm mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-101 cursor-pointer">
+                <div style={{ width: "300px", height: "300px", position: "relative" }}>
+                  <Image src={similarBand.logo.startsWith("http") ? similarBand.logo : `/${similarBand.logo}`} alt={`${similarBand.name} logo`} layout="fill" objectFit="cover" />
+                </div>
+                <div className="px-6 py-4">
+                  <div className="font-bold text-xl mb-2 text-bono-10">{similarBand.name}</div>
+                  <p className="text-bono-10">Genre: {similarBand.genre}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
