@@ -1,26 +1,42 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { useForm, Controller } from "react-hook-form";
 import Card from "../components/Card"; // Adjust the import based on your file structure
 
 const Tickets = () => {
-  const [regularTickets, setRegularTickets] = useState(0);
-  const [vipTickets, setVipTickets] = useState(0);
   const [campingOptions, setCampingOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [greenCamping, setGreenCamping] = useState(false);
-  const [tent2Person, setTent2Person] = useState(0);
-  const [tent3Person, setTent3Person] = useState(0);
   const [reservationId, setReservationId] = useState(null);
   const [reservationConfirmed, setReservationConfirmed] = useState(false);
   const [error, setError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
-  const [formErrors, setFormErrors] = useState({});
   const timerRef = useRef(null);
   const [isCampingAvailable, setIsCampingAvailable] = useState(true);
 
   const router = useRouter();
   const { ticketType } = router.query;
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    control,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+  } = useForm({
+    defaultValues: {
+      regularTickets: 0,
+      vipTickets: 0,
+      selectedOption: "",
+      greenCamping: false,
+      tent2Person: 0,
+      tent3Person: 0,
+    },
+  });
+
+  const regularTickets = watch("regularTickets");
+  const vipTickets = watch("vipTickets");
 
   useEffect(() => {
     fetch("https://winter-frill-lemon.glitch.me/available-spots")
@@ -50,24 +66,17 @@ const Tickets = () => {
   }, [reservationId, timeLeft]);
 
   useEffect(() => {
-    console.log("Ticket type:", ticketType); // Debug log
     if (ticketType === "regular") {
-      setRegularTickets((prev) => {
-        console.log("Incrementing regular tickets"); // Debug log
-        return prev + 1;
-      });
+      setValue("regularTickets", regularTickets + 1);
     } else if (ticketType === "VIP") {
-      setVipTickets((prev) => {
-        console.log("Incrementing VIP tickets"); // Debug log
-        return prev + 1;
-      });
+      setValue("vipTickets", vipTickets + 1);
     }
-  }, [ticketType]);
+  }, [ticketType, setValue, regularTickets, vipTickets]);
 
-  const reserveSpot = async () => {
+  const reserveSpot = async (data) => {
     const payload = {
-      area: selectedOption,
-      amount: regularTickets + vipTickets,
+      area: data.selectedOption,
+      amount: data.regularTickets + data.vipTickets,
     };
 
     console.log("Sending payload:", payload); // Log the payload
@@ -87,9 +96,9 @@ const Tickets = () => {
         throw new Error(`Error: ${response.status} - ${errorText}`);
       }
 
-      const data = await response.json();
-      console.log("Reservation successful:", data); // Log successful reservation
-      setReservationId(data.id);
+      const responseData = await response.json();
+      console.log("Reservation successful:", responseData); // Log successful reservation
+      setReservationId(responseData.id);
       setTimeLeft(300); // Reset timer to 5 minutes
     } catch (error) {
       console.error("Error occurred during reservation:", error); // Log the error
@@ -139,35 +148,24 @@ const Tickets = () => {
     }
   };
 
-  const incrementRegular = () => setRegularTickets((prev) => prev + 1);
-  const decrementRegular = () => setRegularTickets((prev) => Math.max(prev - 1, 0));
-  const incrementVIP = () => setVipTickets((prev) => prev + 1);
-  const decrementVIP = () => setVipTickets((prev) => Math.max(prev - 1, 0));
-  const incrementTent2 = () => setTent2Person((prev) => prev + 1);
-  const decrementTent2 = () => setTent2Person((prev) => Math.max(prev - 1, 0));
-  const incrementTent3 = () => setTent3Person((prev) => prev + 1);
-  const decrementTent3 = () => setTent3Person((prev) => Math.max(prev - 1, 0));
-
-  const totalCost = () => {
-    const regularCost = regularTickets * 799;
-    const vipCost = vipTickets * 1299;
-    const campingCost = greenCamping ? 249 : 0;
-    const tent2Cost = tent2Person * 299;
-    const tent3Cost = tent3Person * 399;
-    const bookingFee = 99;
-
-    return regularCost + vipCost + campingCost + tent2Cost + tent3Cost + bookingFee;
+  const onSubmit = async (data) => {
+    if (validateForm(data)) {
+      await reserveSpot(data);
+      if (!error) {
+        router.push("/personal-info");
+      }
+    }
   };
 
-  const validateForm = () => {
+  const validateForm = (data) => {
     const errors = {};
-    if (regularTickets === 0 && vipTickets === 0) {
+    if (data.regularTickets === 0 && data.vipTickets === 0) {
       errors.tickets = "At least one ticket must be selected.";
     }
-    if (!selectedOption) {
+    if (!data.selectedOption) {
       errors.camping = "A camping spot must be selected.";
     } else {
-      const selectedCampingOption = campingOptions.find((option) => option.area === selectedOption);
+      const selectedCampingOption = campingOptions.find((option) => option.area === data.selectedOption);
       if (selectedCampingOption && selectedCampingOption.available === 0) {
         errors.camping = "Selected camping spot is not available.";
       }
@@ -176,21 +174,21 @@ const Tickets = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleNextClick = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      await reserveSpot();
-      // Programmatic navigation after a successful reservation
-      if (!error) {
-        window.location.href = "/personal-info";
-      }
-    }
-  };
-
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
+
+  const totalCost = () => {
+    const regularCost = regularTickets * 799;
+    const vipCost = vipTickets * 1299;
+    const campingCost = watch("greenCamping") ? 249 : 0;
+    const tent2Cost = watch("tent2Person") * 299;
+    const tent3Cost = watch("tent3Person") * 399;
+    const bookingFee = 99;
+
+    return regularCost + vipCost + campingCost + tent2Cost + tent3Cost + bookingFee;
   };
 
   return (
@@ -201,16 +199,16 @@ const Tickets = () => {
         <Card title="Regular Ticket" status="Regular" subtitle="Subtitle" price="799" ticketType="regular" />
         <Card title="VIP Ticket" status="VIP" subtitle="Subtitle" price="1299" ticketType="VIP" />
       </div>
-      <form className="bg-knap-10 p-8 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleNextClick}>
+      <form className="bg-knap-10 p-8 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col items-center mb-8">
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">Regular Tickets (799,-)</label>
             <div className="flex items-center">
-              <button type="button" onClick={decrementRegular} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
+              <button type="button" onClick={() => setValue("regularTickets", Math.max(regularTickets - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
               </button>
               <div className="px-4 py-2 border-t border-b border-gray-300">{regularTickets}</div>
-              <button type="button" onClick={incrementRegular} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
+              <button type="button" onClick={() => setValue("regularTickets", regularTickets + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
                 +
               </button>
             </div>
@@ -218,11 +216,11 @@ const Tickets = () => {
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">VIP Tickets (1299,-)</label>
             <div className="flex items-center">
-              <button type="button" onClick={decrementVIP} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
+              <button type="button" onClick={() => setValue("vipTickets", Math.max(vipTickets - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
               </button>
               <div className="px-4 py-2 border-t border-b border-gray-300">{vipTickets}</div>
-              <button type="button" onClick={incrementVIP} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
+              <button type="button" onClick={() => setValue("vipTickets", vipTickets + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
                 +
               </button>
             </div>
@@ -230,7 +228,7 @@ const Tickets = () => {
           {formErrors.tickets && <div className="text-red-500 mb-4 w-full text-center">{formErrors.tickets}</div>}
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">Prebook Camping Spot</label>
-            <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)} className="p-2 border border-gray-300 rounded">
+            <select {...register("selectedOption")} className="p-2 border border-gray-300 rounded">
               <option value="">Select a camping area</option>
               {campingOptions.map((option) => (
                 <option key={option.area} value={option.area}>
@@ -242,16 +240,16 @@ const Tickets = () => {
           {formErrors.camping && <div className="text-red-500 mb-4 w-full text-center">{formErrors.camping}</div>}
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">Green Camping (249,-)</label>
-            <input type="checkbox" checked={greenCamping} onChange={(e) => setGreenCamping(e.target.checked)} className="form-checkbox h-5 w-5 text-blue-600" />
+            <Controller control={control} name="greenCamping" render={({ field }) => <input type="checkbox" {...field} className="form-checkbox h-5 w-5 text-blue-600" />} />
           </div>
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">2 Person Tent (299,- each)</label>
             <div className="flex items-center">
-              <button type="button" onClick={decrementTent2} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
+              <button type="button" onClick={() => setValue("tent2Person", Math.max(watch("tent2Person") - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
               </button>
-              <div className="px-4 py-2 border-t border-b border-gray-300">{tent2Person}</div>
-              <button type="button" onClick={incrementTent2} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
+              <div className="px-4 py-2 border-t border-b border-gray-300">{watch("tent2Person")}</div>
+              <button type="button" onClick={() => setValue("tent2Person", watch("tent2Person") + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
                 +
               </button>
             </div>
@@ -259,11 +257,11 @@ const Tickets = () => {
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">3 Person Tent (399,- each)</label>
             <div className="flex items-center">
-              <button type="button" onClick={decrementTent3} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
+              <button type="button" onClick={() => setValue("tent3Person", Math.max(watch("tent3Person") - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
               </button>
-              <div className="px-4 py-2 border-t border-b border-gray-300">{tent3Person}</div>
-              <button type="button" onClick={incrementTent3} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
+              <div className="px-4 py-2 border-t border-b border-gray-300">{watch("tent3Person")}</div>
+              <button type="button" onClick={() => setValue("tent3Person", watch("tent3Person") + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
                 +
               </button>
             </div>
@@ -274,7 +272,7 @@ const Tickets = () => {
           </div>
           {reservationId && timeLeft > 0 && <p className="text-red-500 mb-4">You have {formatTime(timeLeft)} to complete your reservation.</p>}
           <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-lg w-full hover:bg-blue-700" disabled={!isCampingAvailable}>
-            Next
+            {isSubmitSuccessful ? "Reservation Confirmed" : "Next"}
           </button>
         </div>
       </form>
