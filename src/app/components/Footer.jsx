@@ -18,7 +18,7 @@ const Footer = () => {
       </Link>
 
       <div className="flex-grow text-center flex justify-center">
-        <button className="px-6 py-2 text-lg font-medium text-white bg-bono-10 rounded-md hover:bg-blue-700 transition duration-300 font-montserrat">Find billetter</button>
+        <button className="px-6 py-2 text-lg font-medium text-white bg-bono-10 rounded-md hover:bg-blue-700 transition duration-300 font-montserrat animate-bounce">Find billetter</button>
       </div>
 
       <div className="flex-shrink-0 mr-4">
