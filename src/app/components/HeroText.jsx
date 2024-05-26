@@ -10,7 +10,7 @@ function HeroText() {
         alt="Logo"
         width={400}
         height={400}
-        className="transform transition duration-800 ease-in-out animate-bounce"
+        className="transform transition duration-800 ease-in-out animate-pulse"
       />
     </div>
   
