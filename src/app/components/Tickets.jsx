@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 
 const Tickets = () => {
@@ -124,7 +125,7 @@ const Tickets = () => {
     }
   };
 
-  const totalCost = () => {
+  const calculateTotalCost = () => {
     const regularCost = regularTickets * 799;
     const vipCost = vipTickets * 1299;
     const campingCost = greenCamping ? 249 : 0;
@@ -175,8 +176,22 @@ const Tickets = () => {
   const handleNextClick = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+      const totalCost = calculateTotalCost(); // Calculate the total cost
+      const queryString = new URLSearchParams({
+        regularTickets,
+        vipTickets,
+        selectedOption,
+        greenCamping,
+        tent2Person,
+        tent3Person,
+        name,
+        email,
+        phoneNumber,
+        totalCost, // Include total cost in the query string
+      }).toString();
+
       await reserveSpot();
-      window.location.href = "/checkout";
+      window.location.href = `/checkout?${queryString}`;
     }
   };
 
@@ -280,7 +295,7 @@ const Tickets = () => {
           </div>
           {error && error.phoneNumber && <div className="text-red-500 mb-4 w-full text-center">{error.phoneNumber}</div>}
           <div className="mb-6 w-full">
-            <p className="text-lg font-bold">Total Cost: {totalCost()},-</p>
+            <p className="text-lg font-bold">Total Cost: {calculateTotalCost()},-</p>
             <p className="text-sm text-gray-500">* Includes a fixed booking fee of 99,-</p>
           </div>
           {reservationId && timeLeft > 0 && <p className="text-red-500 mb-4">You have {formatTime(timeLeft)} to complete your reservation.</p>}

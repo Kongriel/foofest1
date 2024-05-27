@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
@@ -12,12 +12,31 @@ const PaymentForm = () => {
     focus: "",
   });
   const [showPopup, setShowPopup] = useState(false);
+  const [reservationData, setReservationData] = useState({});
+  const [error, setError] = useState(null);
 
   const nameRef = useRef();
   const numberRef = useRef();
   const expiryRef = useRef();
   const cvcRef = useRef();
   const submitButtonRef = useRef();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const data = {
+      name: urlParams.get("name"),
+      email: urlParams.get("email"),
+      phoneNumber: urlParams.get("phoneNumber"),
+      regularTickets: urlParams.get("regularTickets"),
+      vipTickets: urlParams.get("vipTickets"),
+      selectedOption: urlParams.get("selectedOption"),
+      greenCamping: urlParams.get("greenCamping") === "true",
+      tent2Person: urlParams.get("tent2Person"),
+      tent3Person: urlParams.get("tent3Person"),
+      totalCost: parseFloat(urlParams.get("totalCost")), // Convert to a number
+    };
+    setReservationData(data);
+  }, []);
 
   const handleInputChange = (evt) => {
     const { name, value } = evt.target;
@@ -52,13 +71,44 @@ const PaymentForm = () => {
     }
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
     if (state.name && state.number.length === 16 && state.expiry.length === 4 && state.cvc.length === 3) {
       setShowPopup(true);
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 3000);
+      try {
+        const response = await fetch("https://uheqbjthhbqzdpxflvdl.supabase.co/rest/v1/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoZXFianRoaGJxemRweGZsdmRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYyODQ1OTYsImV4cCI6MjAzMTg2MDU5Nn0.syrFaYAcqHuqHdRg8Yko3CbK-HVmSxta7Cf_u56gEns",
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoZXFianRoaGJxemRweGZsdmRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYyODQ1OTYsImV4cCI6MjAzMTg2MDU5Nn0.syrFaYAcqHuqHdRg8Yko3CbK-HVmSxta7Cf_u56gEns",
+          },
+          body: JSON.stringify({
+            name: reservationData.name,
+            email: reservationData.email,
+            phone_number: reservationData.phoneNumber,
+            regular_tickets: reservationData.regularTickets,
+            vip_tickets: reservationData.vipTickets,
+            camping_spot: reservationData.selectedOption,
+            green_camping: reservationData.greenCamping,
+            tent_2_person: reservationData.tent2Person,
+            tent_3_person: reservationData.tent3Person,
+            total_cost: reservationData.totalCost,
+            paid: true,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Error: ${response.statusText} - ${errorText}`);
+        }
+
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 3000);
+      } catch (error) {
+        setError(error.message);
+      }
     } else {
       alert("Please fill out all fields correctly.");
     }
@@ -67,6 +117,7 @@ const PaymentForm = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-8">
       <h1 className="text-4xl font-bebas text-bono-10 font-bold mb-8">Payment Information</h1>
+      {error && <div className="text-red-500 mb-4">{error}</div>}
       <div className="flex flex-col md:flex-row items-center justify-center gap-12">
         <div className="scale-125 mb-8 md:mb-0">
           <Cards number={state.number} expiry={state.expiry} cvc={state.cvc} name={state.name} focused={state.focus} />
@@ -87,7 +138,7 @@ const PaymentForm = () => {
           <div className="flex justify-between mb-4">
             <div className="w-1/2 mr-2">
               <label className="block text-gray-700 font-bold mb-2" htmlFor="expiry">
-                Expiration (mm/yy)
+                Expiration (MM/YY)
               </label>
               <input type="text" name="expiry" placeholder="MM/YY" value={state.expiry} onChange={handleInputChange} onFocus={handleInputFocus} onBlur={handleInputBlur} onKeyPress={handleNumberKeyPress} ref={expiryRef} className="w-full px-3 py-3 bg-knap-10 rounded-md text-bono-10 focus:outline-none focus:ring-2 focus:ring-blue-500" inputMode="numeric" pattern="[0-9]*" maxLength="4" required />
             </div>
