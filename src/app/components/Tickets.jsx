@@ -31,6 +31,7 @@ const Tickets = () => {
       } else if (ticketDetails.ticketType === "VIP") {
         setVipTickets(1);
       }
+      localStorage.removeItem("selectedTicket");
     }
 
     const fetchCampingOptions = async () => {

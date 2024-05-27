@@ -63,18 +63,18 @@ const Schedule = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-center space-x-4 my-4">
+      <div className="flex justify-center flex-wrap gap-y-3 space-x-4 my-4">
         {["mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((day) => (
-          <button key={day} onClick={() => setSelectedDay(day)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button key={day} onClick={() => setSelectedDay(day)} className="bg-knap-10 border-2 hover:border-blue-600 border-gray-500 rounded-lg text-bono-10  py-4 px-6">
             {dayNames[day].toUpperCase()}
           </button>
         ))}
-        <select onChange={(e) => setSelectedScene(e.target.value)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <select onChange={(e) => setSelectedScene(e.target.value)} className="bg-bono-10 border-2 text-white hover:border-blue-600 border-gray-500 rounded-lg   py-4 px-8">
           <option value="">All Scenes</option>
-          <option value="Main Stage">Main Stage</option>
-          <option value="Midgard">Midgard</option>
-          <option value="Vanaheim">Vanaheim</option>
-          <option value="Jotunheim">Jotunheim</option>
+
+          <option value="Midgard">MIDGARD</option>
+          <option value="Vanaheim">VANEHEIM</option>
+          <option value="Jotunheim">JOTUNHEIM</option>
         </select>
       </div>
       <h1 className="text-center text-6xl font-semibold font-bebas text-bono-10 my-12">

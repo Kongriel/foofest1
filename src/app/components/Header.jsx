@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import FollowButton from "./FollowButton";
 import Knap from "./Knap";
@@ -7,6 +7,8 @@ import Image from "next/image";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef(null);
+  const hamburgerRef = useRef(null);
 
   // Effect to toggle blur class on body
   useEffect(() => {
@@ -23,6 +25,20 @@ const Header = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const closeMenu = () => setIsOpen(false);
+
+  // Close navbar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target) && hamburgerRef.current && !hamburgerRef.current.contains(event.target)) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [navRef, hamburgerRef]);
 
   return (
     <header className="flex justify-between rounded-xl bg-knap-10 items-center px-2 h-24 relative text-bono-10">
@@ -41,11 +57,13 @@ const Header = () => {
         <div className="hidden md:block">
           <Knap className="hidden md:block" /> {/* Hide on tablet size */}
         </div>
-        <FollowButton isOpen={isOpen} toggleMenu={toggleMenu} />
+        <div ref={hamburgerRef}>
+          <FollowButton isOpen={isOpen} toggleMenu={toggleMenu} />
+        </div>
       </div>
 
       {/* Navigation Menu */}
-      <div className={`fixed top-0 right-0 z-20 bg-bono-10 h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} md:w-10/12 w-full`} style={{ clipPath: "ellipse(70% 100% at 100% 50%)" }}>
+      <div ref={navRef} className={`fixed top-0 right-0 z-20 bg-bono-10 h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} md:w-10/12 w-full`} style={{ clipPath: "ellipse(70% 100% at 100% 50%)" }}>
         <div className="flex flex-col items-end justify-center h-full text-center pr-10">
           <Link href="/booking" passHref>
             <div onClick={closeMenu} className="mt-4 mb-2 text-taupe-10 text-4xl cursor-pointer">
