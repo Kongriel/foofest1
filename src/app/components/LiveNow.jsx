@@ -74,12 +74,12 @@ const LiveNow = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center py-10">
+    <div className="min-h-screen  text-bono-10 flex flex-col items-center justify-center py-10">
       <h1 className="text-4xl font-bold mb-8">Who's Live Now</h1>
       {error && <div className="text-red-500 mb-4">{error}</div>}
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="w-10/12 max-w-7xl grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {liveActs.map(({ stage, currentAct, nextAct }) => (
-          <div key={stage} className="bg-gray-800 p-6 rounded-lg shadow-lg">
+          <div key={stage} className="bg-knap-10 p-6 rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold mb-4">{stage}</h2>
             {currentAct ? (
               <div className="mb-4">

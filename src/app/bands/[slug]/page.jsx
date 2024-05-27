@@ -10,8 +10,8 @@ const BandPage = () => {
   const [loadingSchedule, setLoadingSchedule] = useState(true);
   const [error, setError] = useState(null);
   const [schedule, setSchedule] = useState(null);
-  const [currentStage, setCurrentStage] = useState(null);
   const [similarBands, setSimilarBands] = useState([]);
+  const [currentStage, setCurrentStage] = useState(null);
 
   const { slug } = useParams();
 
@@ -43,7 +43,6 @@ const BandPage = () => {
     }
     return null;
   };
-
   useEffect(() => {
     if (!slug) {
       setError("No band specified");
@@ -91,7 +90,6 @@ const BandPage = () => {
           });
         });
         setSchedule(bandSchedule);
-
         const stage = checkIfLive(bandSchedule, band.name);
         setCurrentStage(stage);
       } catch (error) {
@@ -145,6 +143,7 @@ const BandPage = () => {
           </h1>
         </div>
         {currentStage && <div className="bg-green-500 text-white text-sm font-bold rounded-full px-4 py-1 mt-4">Live at {currentStage} right now</div>}
+
         <div className="mb-4 mt-8">
           <Image src={imageUrl} alt={band.name} width={500} height={500} className="rounded-xl" />
         </div>

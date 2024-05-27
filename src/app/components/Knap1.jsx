@@ -57,11 +57,11 @@ const FollowButton = ({ onClick }) => {
 
   return (
     <Link href="/bands" passHref>
-      <button className="flex justify-center items-center text-center px-8  text-nowrap relative w-80 h-20 cursor-pointer">
+      <button className="flex justify-center items-center text-center px-6  text-nowrap relative w-80 h-20 cursor-pointer">
         <div ref={containerRef} onClick={onClick} className="absolute  cursor-pointer inset-0 flex justify-center items-center">
           <div ref={contentRef} className="absolute bg-knap-10 cursor-pointer flex justify-center items-center h-20 w-96 text-sm rounded-xl border-2 hover:border-blue-600 border-gray-500"></div>
           <div ref={hamburgerRef} className="text-bono-10 cursor-pointer absolute hover:border-blue-600 text-2xl">
-            Se endnu flere fede artister her
+            Se flere fede artister her
           </div>
         </div>
       </button>

@@ -1,3 +1,4 @@
+// components/Tickets.js
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 
@@ -22,6 +23,16 @@ const Tickets = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   useEffect(() => {
+    // Retrieve ticket details from local storage
+    const ticketDetails = JSON.parse(localStorage.getItem("selectedTicket"));
+    if (ticketDetails) {
+      if (ticketDetails.ticketType === "regular") {
+        setRegularTickets(1);
+      } else if (ticketDetails.ticketType === "VIP") {
+        setVipTickets(1);
+      }
+    }
+
     const fetchCampingOptions = async () => {
       try {
         const response = await fetch("https://winter-frill-lemon.glitch.me/available-spots");

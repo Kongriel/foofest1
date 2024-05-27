@@ -1,3 +1,4 @@
+// components/Card.js
 import React, { useState } from "react";
 import Link from "next/link";
 
@@ -11,6 +12,11 @@ function Card({ title, status, subtitle, price, ticketType }) {
     WebkitTextStroke: `2px ${textStrokeColor}`, // Dynamic stroke color based on state
   };
 
+  const handleClick = () => {
+    const ticketDetails = { title, status, price, ticketType };
+    localStorage.setItem("selectedTicket", JSON.stringify(ticketDetails));
+  };
+
   return (
     <Link href="/booking" passHref>
       <div
@@ -20,6 +26,7 @@ function Card({ title, status, subtitle, price, ticketType }) {
         onFocus={() => setTextStrokeColor("black")} // Change to gray on focus
         onBlur={() => setTextStrokeColor("#007bff")} // Revert to blue when focus is lost
         tabIndex="0" // Makes the card focusable and reachable via keyboard navigation
+        onClick={handleClick}
       >
         <div className="text-center">
           <h1 className="text-2xl mt-6 mb-10 font-bold font-bebas text-gray-600">{title}</h1>
