@@ -38,7 +38,9 @@ const Header = () => {
 
       {/* Hamburger Icon */}
       <div className="flex items-center space-x-4">
-        <Knap />
+        <div className="hidden md:block">
+          <Knap className="hidden md:block" /> {/* Hide on tablet size */}
+        </div>
         <FollowButton isOpen={isOpen} toggleMenu={toggleMenu} />
       </div>
 

@@ -1,16 +1,15 @@
 "use client";
 
 import React from "react";
-import Test from "./components/Test";
+
 import Hero from "./components/Hero";
 import HeroText from "./components/HeroText";
 import Knap1 from "./components/Knap1";
 import Centertext from "./components/Centertext";
 import Card from "./components/Card";
-import Newsletter from "./components/Newsletter";
-import Newsform from "./components/Newsform";
+
 import Sponsor from "./components/Sponsor";
-import Footer from "./components/Footer";
+
 import Clubjoin from "./components/Clubjoin";
 import Knap2 from "./components/Knap2";
 
@@ -37,6 +36,7 @@ export default function Home() {
       <section>
         <Clubjoin />
       </section>
+
       <section>
         <Sponsor />
       </section>

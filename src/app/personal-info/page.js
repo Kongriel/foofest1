@@ -1,10 +1,10 @@
 import React from "react";
-import PersonalInfo from "../components/Personalinfo";
+import Personalinfo from "../components/Personalinfo";
 
 function page() {
   return (
     <div>
-      <PersonalInfo />
+      <Personalinfo />
     </div>
   );
 }

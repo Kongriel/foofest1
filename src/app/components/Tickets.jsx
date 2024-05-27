@@ -1,8 +1,4 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
-import { useForm, Controller } from "react-hook-form";
-import Card from "../components/Card"; // Adjust the import based on your file structure
+import React, { useState, useEffect, useRef } from "react";
 
 const Tickets = () => {
   const [campingOptions, setCampingOptions] = useState([]);
@@ -13,44 +9,33 @@ const Tickets = () => {
   const timerRef = useRef(null);
   const [isCampingAvailable, setIsCampingAvailable] = useState(true);
 
-  const router = useRouter();
-  const { ticketType } = router.query;
+  const [regularTickets, setRegularTickets] = useState(0);
+  const [vipTickets, setVipTickets] = useState(0);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [greenCamping, setGreenCamping] = useState(false);
+  const [tent2Person, setTent2Person] = useState(0);
+  const [tent3Person, setTent3Person] = useState(0);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    control,
-    formState: { errors, isSubmitSuccessful },
-    reset,
-  } = useForm({
-    defaultValues: {
-      regularTickets: 0,
-      vipTickets: 0,
-      selectedOption: "",
-      greenCamping: false,
-      tent2Person: 0,
-      tent3Person: 0,
-    },
-  });
-
-  const regularTickets = watch("regularTickets");
-  const vipTickets = watch("vipTickets");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   useEffect(() => {
-    fetch("https://winter-frill-lemon.glitch.me/available-spots")
-      .then((response) => {
+    const fetchCampingOptions = async () => {
+      try {
+        const response = await fetch("https://winter-frill-lemon.glitch.me/available-spots");
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
         }
-        return response.json();
-      })
-      .then((data) => {
+        const data = await response.json();
         setCampingOptions(data);
         setIsCampingAvailable(data.some((option) => option.available > 0));
-      })
-      .catch((error) => setError(error.message));
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchCampingOptions();
   }, []);
 
   useEffect(() => {
@@ -65,21 +50,14 @@ const Tickets = () => {
     return () => clearInterval(timerRef.current);
   }, [reservationId, timeLeft]);
 
-  useEffect(() => {
-    if (ticketType === "regular") {
-      setValue("regularTickets", regularTickets + 1);
-    } else if (ticketType === "VIP") {
-      setValue("vipTickets", vipTickets + 1);
-    }
-  }, [ticketType, setValue, regularTickets, vipTickets]);
-
-  const reserveSpot = async (data) => {
+  const reserveSpot = async () => {
     const payload = {
-      area: data.selectedOption,
-      amount: data.regularTickets + data.vipTickets,
+      area: selectedOption,
+      amount: regularTickets + vipTickets,
+      name,
+      email,
+      phoneNumber,
     };
-
-    console.log("Sending payload:", payload); // Log the payload
 
     try {
       const response = await fetch("https://winter-frill-lemon.glitch.me/reserve-spot", {
@@ -92,16 +70,13 @@ const Tickets = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("Error response text:", errorText); // Log the error response text
         throw new Error(`Error: ${response.status} - ${errorText}`);
       }
 
-      const responseData = await response.json();
-      console.log("Reservation successful:", responseData); // Log successful reservation
-      setReservationId(responseData.id);
+      const data = await response.json();
+      setReservationId(data.id);
       setTimeLeft(300); // Reset timer to 5 minutes
     } catch (error) {
-      console.error("Error occurred during reservation:", error); // Log the error
       setError(error.message);
     }
   };
@@ -142,36 +117,67 @@ const Tickets = () => {
         throw new Error(`Error: ${response.status}`);
       }
       setReservationConfirmed(true);
-      clearInterval(timerRef.current); // Stop the timer
+      clearInterval(timerRef.current);
+      window.location.href = "/checkout";
     } catch (error) {
       setError(error.message);
     }
   };
 
-  const onSubmit = async (data) => {
-    if (validateForm(data)) {
-      await reserveSpot(data);
-      if (!error) {
-        router.push("/personal-info");
-      }
-    }
+  const totalCost = () => {
+    const regularCost = regularTickets * 799;
+    const vipCost = vipTickets * 1299;
+    const campingCost = greenCamping ? 249 : 0;
+    const tent2Cost = tent2Person * 299;
+    const tent3Cost = tent3Person * 399;
+    const bookingFee = 99;
+
+    return regularCost + vipCost + campingCost + tent2Cost + tent3Cost + bookingFee;
   };
 
-  const validateForm = (data) => {
+  const validateForm = () => {
     const errors = {};
-    if (data.regularTickets === 0 && data.vipTickets === 0) {
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (regularTickets === 0 && vipTickets === 0) {
       errors.tickets = "At least one ticket must be selected.";
     }
-    if (!data.selectedOption) {
+    if (!selectedOption) {
       errors.camping = "A camping spot must be selected.";
     } else {
-      const selectedCampingOption = campingOptions.find((option) => option.area === data.selectedOption);
-      if (selectedCampingOption && selectedCampingOption.available === 0) {
-        errors.camping = "Selected camping spot is not available.";
+      const selectedCampingOption = campingOptions.find((option) => option.area === selectedOption);
+      if (selectedCampingOption) {
+        if (selectedCampingOption.available === 0) {
+          errors.camping = "Selected camping spot is not available.";
+        } else if (regularTickets + vipTickets > selectedCampingOption.available) {
+          errors.camping = `Selected camping spot only has ${selectedCampingOption.available} spots available.`;
+        }
       }
     }
-    setFormErrors(errors);
+    if (!name) {
+      errors.name = "Name is required.";
+    } else if (!nameRegex.test(name)) {
+      errors.name = "Name should contain only letters.";
+    }
+    if (!email) {
+      errors.email = "Email is required.";
+    } else if (!emailRegex.test(email)) {
+      errors.email = "Please enter a valid email address.";
+    }
+    if (!phoneNumber) {
+      errors.phoneNumber = "Phone number is required.";
+    }
+    setError(errors);
     return Object.keys(errors).length === 0;
+  };
+
+  const handleNextClick = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      await reserveSpot();
+      window.location.href = "/checkout";
+    }
   };
 
   const formatTime = (seconds) => {
@@ -180,35 +186,27 @@ const Tickets = () => {
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
-  const totalCost = () => {
-    const regularCost = regularTickets * 799;
-    const vipCost = vipTickets * 1299;
-    const campingCost = watch("greenCamping") ? 249 : 0;
-    const tent2Cost = watch("tent2Person") * 299;
-    const tent3Cost = watch("tent3Person") * 399;
-    const bookingFee = 99;
-
-    return regularCost + vipCost + campingCost + tent2Cost + tent3Cost + bookingFee;
-  };
-
   return (
     <div className="min-h-screen text-bono-10 flex flex-col items-center justify-center py-10">
       <h1 className="text-4xl text-bono-10 font-bold mb-8">Select Your Tickets and Camping Options</h1>
-      {error && <div className="text-red-500 mb-4">{error}</div>}
-      <div className="flex space-x-4 mb-8">
-        <Card title="Regular Ticket" status="Regular" subtitle="Subtitle" price="799" ticketType="regular" />
-        <Card title="VIP Ticket" status="VIP" subtitle="Subtitle" price="1299" ticketType="VIP" />
-      </div>
-      <form className="bg-knap-10 p-8 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleSubmit(onSubmit)}>
+      {error && typeof error === "string" && <div className="text-red-500 mb-4">{error}</div>}
+      {error && typeof error === "object" && (
+        <div className="text-red-500 mb-4">
+          {Object.values(error).map((errMsg, index) => (
+            <div key={index}>{errMsg}</div>
+          ))}
+        </div>
+      )}
+      <form className="bg-knap-10 p-8 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleNextClick}>
         <div className="flex flex-col items-center mb-8">
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">Regular Tickets (799,-)</label>
             <div className="flex items-center">
-              <button type="button" onClick={() => setValue("regularTickets", Math.max(regularTickets - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
+              <button type="button" onClick={() => setRegularTickets(Math.max(regularTickets - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
               </button>
               <div className="px-4 py-2 border-t border-b border-gray-300">{regularTickets}</div>
-              <button type="button" onClick={() => setValue("regularTickets", regularTickets + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
+              <button type="button" onClick={() => setRegularTickets(regularTickets + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
                 +
               </button>
             </div>
@@ -216,19 +214,19 @@ const Tickets = () => {
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">VIP Tickets (1299,-)</label>
             <div className="flex items-center">
-              <button type="button" onClick={() => setValue("vipTickets", Math.max(vipTickets - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
+              <button type="button" onClick={() => setVipTickets(Math.max(vipTickets - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
               </button>
               <div className="px-4 py-2 border-t border-b border-gray-300">{vipTickets}</div>
-              <button type="button" onClick={() => setValue("vipTickets", vipTickets + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
+              <button type="button" onClick={() => setVipTickets(vipTickets + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
                 +
               </button>
             </div>
           </div>
-          {formErrors.tickets && <div className="text-red-500 mb-4 w-full text-center">{formErrors.tickets}</div>}
+          {error && error.tickets && <div className="text-red-500 mb-4 w-full text-center">{error.tickets}</div>}
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">Prebook Camping Spot</label>
-            <select {...register("selectedOption")} className="p-2 border border-gray-300 rounded">
+            <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)} className="p-2 border border-gray-300 rounded">
               <option value="">Select a camping area</option>
               {campingOptions.map((option) => (
                 <option key={option.area} value={option.area}>
@@ -237,19 +235,19 @@ const Tickets = () => {
               ))}
             </select>
           </div>
-          {formErrors.camping && <div className="text-red-500 mb-4 w-full text-center">{formErrors.camping}</div>}
+          {error && error.camping && <div className="text-red-500 mb-4 w-full text-center">{error.camping}</div>}
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">Green Camping (249,-)</label>
-            <Controller control={control} name="greenCamping" render={({ field }) => <input type="checkbox" {...field} className="form-checkbox h-5 w-5 text-blue-600" />} />
+            <input type="checkbox" checked={greenCamping} onChange={(e) => setGreenCamping(e.target.checked)} className="form-checkbox h-5 w-5 text-blue-600" />
           </div>
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">2 Person Tent (299,- each)</label>
             <div className="flex items-center">
-              <button type="button" onClick={() => setValue("tent2Person", Math.max(watch("tent2Person") - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
+              <button type="button" onClick={() => setTent2Person(Math.max(tent2Person - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
               </button>
-              <div className="px-4 py-2 border-t border-b border-gray-300">{watch("tent2Person")}</div>
-              <button type="button" onClick={() => setValue("tent2Person", watch("tent2Person") + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
+              <div className="px-4 py-2 border-t border-b border-gray-300">{tent2Person}</div>
+              <button type="button" onClick={() => setTent2Person(tent2Person + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
                 +
               </button>
             </div>
@@ -257,22 +255,37 @@ const Tickets = () => {
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-lg text-bono-10">3 Person Tent (399,- each)</label>
             <div className="flex items-center">
-              <button type="button" onClick={() => setValue("tent3Person", Math.max(watch("tent3Person") - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
+              <button type="button" onClick={() => setTent3Person(Math.max(tent3Person - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
               </button>
-              <div className="px-4 py-2 border-t border-b border-gray-300">{watch("tent3Person")}</div>
-              <button type="button" onClick={() => setValue("tent3Person", watch("tent3Person") + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
+              <div className="px-4 py-2 border-t border-b border-gray-300">{tent3Person}</div>
+              <button type="button" onClick={() => setTent3Person(tent3Person + 1)} className="px-3 py-1 bg-gray-300 rounded-r text-xl">
                 +
               </button>
             </div>
           </div>
+          <div className="mb-6 w-full">
+            <label className="text-lg text-bono-10">Name</label>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" className="p-2 border bg-knap border-gray-300 rounded w-full" />
+          </div>
+          {error && error.name && <div className="text-red-500 mb-4 w-full text-center">{error.name}</div>}
+          <div className="mb-6 w-full">
+            <label className="text-lg text-bono-10">Email</label>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="p-2 border border-gray-300 rounded w-full" />
+          </div>
+          {error && error.email && <div className="text-red-500 mb-4 w-full text-center">{error.email}</div>}
+          <div className="mb-6 w-full">
+            <label className="text-lg text-bono-10">Phone Number</label>
+            <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Enter your phone number" className="p-2 border border-gray-300 rounded w-full" />
+          </div>
+          {error && error.phoneNumber && <div className="text-red-500 mb-4 w-full text-center">{error.phoneNumber}</div>}
           <div className="mb-6 w-full">
             <p className="text-lg font-bold">Total Cost: {totalCost()},-</p>
             <p className="text-sm text-gray-500">* Includes a fixed booking fee of 99,-</p>
           </div>
           {reservationId && timeLeft > 0 && <p className="text-red-500 mb-4">You have {formatTime(timeLeft)} to complete your reservation.</p>}
           <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-lg w-full hover:bg-blue-700" disabled={!isCampingAvailable}>
-            {isSubmitSuccessful ? "Reservation Confirmed" : "Next"}
+            Next
           </button>
         </div>
       </form>
