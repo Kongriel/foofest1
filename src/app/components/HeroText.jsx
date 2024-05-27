@@ -1,13 +1,19 @@
 import React from "react";
+import Image from "next/image";
+
 
 function HeroText() {
   return (
-    <div className="flex text-bono-10 gap-3 mt-8 mb-12 justify-center items-center">
-      <div className="text-8xl font-semibold font-bebas">Foofest´24</div>
-      <div className="w-38 font-montserrat">
-        Vi ses til dans, sang, <br></br> kærlighed og magi på <br></br> Foofest 2024!
-      </div>
+    <div className="flex items-center w-full  overflow-hidden">
+      <Image
+        src="/Foofest-logo-2.png"
+        alt="Logo"
+        width={400}
+        height={400}
+        className="transform transition duration-800 ease-in-out animate-move"
+      />
     </div>
+  
   );
 }
 
