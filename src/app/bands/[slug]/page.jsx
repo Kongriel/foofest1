@@ -142,7 +142,12 @@ const BandPage = () => {
 
   return (
     <div className="flex flex-col mt-24 md:mt-36 items-center justify-center px-4 md:px-8 lg:px-12">
-      <div className="flex flex-col items-center text-center relative">
+      <div className="w-full flex justify-start">
+        <button onClick={() => window.history.back()} className="bg-gray-200 text-gray-800 mb-4 px-4 py-2 rounded">
+          Back
+        </button>
+      </div>
+      <div className="flex flex-col items-center text-center relative w-full">
         <div className="flex flex-col items-center space-y-4 mb-4">
           <h1 className="text-4xl md:text-5xl lg:text-7xl text-bono-10 font-bold">
             {band.name}

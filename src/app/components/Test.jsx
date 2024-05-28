@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import ScheduleLoading from "./ScheduleLoading";
 
 const Schedule = () => {
@@ -102,19 +103,21 @@ const Schedule = () => {
           </>
         ) : (
           bandsForDayAndScene.map((band) => (
-            <div key={band.slug} className="max-w-sm mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-101">
-              <div style={{ width: "370px", height: "370px", position: "relative" }}>
-                <Image src={band.logo.startsWith("http") ? band.logo : `/${band.logo}`} alt={`${band.name} logo`} layout="fill" objectFit="cover" />
+            <Link key={band.slug} href={`/bands/${band.slug}`} passHref>
+              <div className="max-w-sm mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-101 cursor-pointer">
+                <div style={{ width: "370px", height: "370px", position: "relative" }}>
+                  <Image src={band.logo.startsWith("http") ? band.logo : `/${band.logo}`} alt={`${band.name} logo`} layout="fill" objectFit="cover" />
+                </div>
+                <div className="px-6 py-4">
+                  <div className="font-bold text-xl mb-2 text-bono-10">{band.name}</div>
+                  <p className="text-bono-10">
+                    Genre: {band.genre}
+                    <br />
+                    Time: {band.start} - {band.end} on {band.scene}
+                  </p>
+                </div>
               </div>
-              <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2 text-bono-10">{band.name}</div>
-                <p className="text-bono-10">
-                  Genre: {band.genre}
-                  <br />
-                  Time: {band.start} - {band.end} on {band.scene}
-                </p>
-              </div>
-            </div>
+            </Link>
           ))
         )}
         {!loading && bandsForDayAndScene.length === 0 && <p className="text-center text-white">No bands scheduled for this day.</p>}
