@@ -38,10 +38,10 @@ function Hero() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const firstThree = bands.slice(0, 3);
-  const secondRow = isMobile ? bands.slice(3, 7) : bands.slice(3, 10);
-  const thirdRow = isMobile ? bands.slice(8, 12) : bands.slice(10, 17);
-  const fourthRow = isMobile ? bands.slice(12, 16) : [];
+  const firstThree = isMobile ? bands.slice(0, 2) : bands.slice(0, 3);
+  const secondRow = isMobile ? bands.slice(3, 6) : bands.slice(3, 10);
+  const thirdRow = isMobile ? bands.slice(8, 11) : bands.slice(10, 17);
+  const fourthRow = isMobile ? bands.slice(12, 15) : [];
 
   return (
     <div>
