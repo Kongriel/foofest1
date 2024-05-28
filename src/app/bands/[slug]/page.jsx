@@ -141,10 +141,10 @@ const BandPage = () => {
   const playingDays = schedule ? Object.keys(schedule).map((day) => dayNames[day]) : [];
 
   return (
-    <div className="flex flex-col mt-12 items-center justify-center ">
+    <div className="flex flex-col mt-12 items-center justify-center px-4 md:px-8 lg:px-12">
       <div className="flex flex-col items-center text-center relative">
-        <div className="flex items-center justify-center space-x-4 mb-4">
-          <h1 className="text-7xl text-bono-10 font-bold">
+        <div className="flex flex-col items-center space-y-4 mb-4">
+          <h1 className="text-5xl md:text-5xl lg:text-7xl text-bono-10 font-bold">
             {band.name}
             {playingDays.length > 0 && (
               <span
@@ -160,17 +160,17 @@ const BandPage = () => {
           </h1>
         </div>
         {currentStage && <div className="bg-green-500 text-white text-sm font-bold rounded-full px-4 py-1 mt-4">Live at {currentStage} right now</div>}
-        <div className="mb-4 mt-8">
-          <Image src={imageUrl} alt={band.name} width={500} height={500} className="rounded-xl" />
+        <div className="mb-4 mt-8 w-64 h-64 md:w-96 md:h-96 lg:w-500 lg:h-500 relative">
+          <Image src={imageUrl} alt={band.name} layout="fill" className="rounded-xl" objectFit="cover" />
         </div>
-        <p className="mt-4 w-9/12 text-bono-10 text-lg font-montserrat">{band.bio}</p>
+        <p className="mt-4 w-full md:w-9/12 text-bono-10 text-base md:text-lg font-montserrat">{band.bio}</p>
         {schedule && (
-          <div className="mt-6">
+          <div className="mt-6 w-full md:w-9/12">
             {Object.entries(schedule).map(([day, acts]) => (
-              <div key={day}>
+              <div key={day} className="mb-4">
                 <ul>
                   {acts.map((act, index) => (
-                    <li className="text-bono-10 text-lg font-montserrat mb-8" key={index}>
+                    <li className="text-bono-10 text-base md:text-lg font-montserrat mb-2" key={index}>
                       {act.start} - {act.end} at {act.stage}
                     </li>
                   ))}
@@ -182,16 +182,16 @@ const BandPage = () => {
       </div>
       {/* New section to display similar bands */}
       <div className="mt-12 w-full text-center">
-        <h2 className="text-5xl font-bold mb-8 text-bono-10">More bands in the same genre</h2>
-        <div className="flex justify-center flex-wrap gap-8 mb-10">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-bono-10">More bands in the same genre</h2>
+        <div className="flex flex-col md:flex-row justify-center flex-wrap gap-8 mb-10">
           {similarBands.map((similarBand) => (
             <Link key={similarBand.slug} href={`/bands/${similarBand.slug}`} passHref>
-              <div className="max-w-xs mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500  cursor-pointer">
-                <div style={{ width: "300px", height: "300px", position: "relative" }}>
+              <div className="max-w-xs mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500 cursor-pointer">
+                <div style={{ width: "100%", height: "200px", position: "relative" }}>
                   <Image src={similarBand.logo.startsWith("http") ? similarBand.logo : `/${similarBand.logo}`} alt={`${similarBand.name} logo`} layout="fill" objectFit="cover" />
                 </div>
                 <div className="px-6 py-4">
-                  <div className="font-bold text-xl mb-2 text-bono-10">{similarBand.name}</div>
+                  <div className="font-bold text-lg md:text-xl mb-2 text-bono-10">{similarBand.name}</div>
                   <p className="text-bono-10">Genre: {similarBand.genre}</p>
                 </div>
               </div>
