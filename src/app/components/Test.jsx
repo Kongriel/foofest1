@@ -25,15 +25,8 @@ const Schedule = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://winter-frill-lemon.glitch.me";
-    const fetchBands = fetch(`${apiUrl}/bands`).then((res) => {
-      if (!res.ok) throw new Error(`Failed to fetch bands: ${res.statusText}`);
-      return res.json();
-    });
-    const fetchSchedule = fetch(`${apiUrl}/schedule`).then((res) => {
-      if (!res.ok) throw new Error(`Failed to fetch schedule: ${res.statusText}`);
-      return res.json();
-    });
+    const fetchBands = fetch("https://winter-frill-lemon.glitch.me/bands").then((res) => res.json());
+    const fetchSchedule = fetch("https://winter-frill-lemon.glitch.me/schedule").then((res) => res.json());
 
     Promise.all([fetchBands, fetchSchedule])
       .then(([bandsData, scheduleData]) => {
@@ -78,6 +71,7 @@ const Schedule = () => {
         ))}
         <select onChange={(e) => setSelectedScene(e.target.value)} className="bg-bono-10 border-2 text-white hover:border-blue-600 border-gray-500 rounded-lg   py-4 px-8">
           <option value="">All Scenes</option>
+
           <option value="Midgard">MIDGARD</option>
           <option value="Vanaheim">VANEHEIM</option>
           <option value="Jotunheim">JOTUNHEIM</option>
