@@ -225,7 +225,7 @@ const Tickets = () => {
       )}
       <form className="bg-knap-10 p-8 sm:p-16 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleNextClick}>
         <fieldset className="mb-5">
-          <legend className="text-lg font-semibold mb-2">Tickets</legend>
+          <legend className="text-lg font-semibold -mt-4 mb-2">Ticket Type</legend>
           <div className="mb-1 w-full flex justify-between items-center">
             <label className="text-base sm:text-lg text-bono-10">Regular Tickets (799,-)</label>
             <div className="flex items-center">
