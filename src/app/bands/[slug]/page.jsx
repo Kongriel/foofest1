@@ -141,7 +141,7 @@ const BandPage = () => {
   const playingDays = schedule ? Object.keys(schedule).map((day) => dayNames[day]) : [];
 
   return (
-    <div className="flex flex-col mt-24 md:mt-40 items-center justify-center px-4 md:px-8 lg:px-12">
+    <div className="flex flex-col mt-24 md:mt-36 items-center justify-center px-4 md:px-8 lg:px-12">
       <div className="flex flex-col items-center text-center relative">
         <div className="flex flex-col items-center space-y-4 mb-4">
           <h1 className="text-4xl md:text-5xl lg:text-7xl text-bono-10 font-bold">
