@@ -12,7 +12,6 @@ const Header = () => {
 
   // Effect to toggle blur class on body
   useEffect(() => {
-    // Get the main content element by ID
     const mainContent = document.getElementById("main-content");
 
     if (isOpen) {
@@ -41,14 +40,14 @@ const Header = () => {
   }, [navRef, hamburgerRef]);
 
   return (
-    <header className="flex justify-between rounded-xl bg-knap-10 items-center px-2 h-24 relative text-bono-10">
+    <header className="fixed top-0 left-0 right-0 flex justify-between rounded-xl bg-knap-10 items-center px-2 h-16 sm:h-20 md:h-24 z-50 text-bono-10">
       {/* Welcome Text */}
-      <div className="text-sm sm:text-lg text-wrap">Velkommen til FooFest '24</div>
+      <div className="text-xs sm:text-sm md:text-lg text-wrap">Velkommen til FooFest '24</div>
 
       {/* Foofest Logo */}
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <Link href="/" passHref>
-          <Image src="/Foofest-logo-2.png" alt="Foofest Logo" width={100} height={100} />
+          <Image src="/Foofest-logo-2.png" alt="Foofest Logo" width={50} height={50} className="sm:w-20 sm:h-20 md:w-24 md:h-24" />
         </Link>
       </div>
 

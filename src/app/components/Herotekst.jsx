@@ -2,9 +2,9 @@ import React from "react";
 
 function Herotekst() {
   return (
-    <section className="flex justify-center mt-8 gap-6 text-center px-2 mb-14">
-      <h1 className="font-bebas font-semibold text-bono-10 md:text-8xl text-5xl">FooFest'24</h1>
-      <p className="text-bono-10 font-montserrat md:text-xl text-sm">
+    <section className="flex flex-col md:flex-row justify-center items-center mt-8 md:gap-6 text-center px-2 mb-14">
+      <h1 className="font-bebas font-semibold text-bono-10 text-6xl md:text-8xl">FooFest'24</h1>
+      <p className="text-bono-10 font-montserrat text-xl ">
         Vi ses til dans, sang,
         <br />
         kærlighed og magi på
