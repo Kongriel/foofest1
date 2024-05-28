@@ -133,8 +133,8 @@ function Clubjoin() {
           </label>
         </div>
         {errors.agreement && <span className="text-red-500 mb-4">{errors.agreement.message}</span>}
-        <button type="submit" className="w-full p-12 font-bebas text-xl bg-knap-10 border border-gray-600 hover:border-gray-700 text-bono-10 font-bold rounded-xl cursor-pointer">
-          {isSubmitSuccessful ? "Du er nu tilmeldt Fooclub! 🎉" : "TILMELD DIG FOOCLUB"}
+        <button type="submit" className="w-full p-12 tracking-wider font-bebas text-xl bg-knap-10 border border-gray-600 hover:border-gray-700 text-bono-10 font-bold rounded-xl cursor-pointer">
+          {isSubmitSuccessful ? "DU ER NU TILMELDT FOOCLUB! 🎉" : "TILMELD DIG FOOCLUB!"}
         </button>
       </form>
     </div>
