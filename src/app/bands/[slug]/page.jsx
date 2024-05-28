@@ -141,10 +141,10 @@ const BandPage = () => {
   const playingDays = schedule ? Object.keys(schedule).map((day) => dayNames[day]) : [];
 
   return (
-    <div className="flex flex-col mt-12 items-center justify-center px-4 md:px-8 lg:px-12">
+    <div className="flex flex-col mt-36 items-center justify-center px-4 md:px-8 lg:px-12">
       <div className="flex flex-col items-center text-center relative">
         <div className="flex flex-col items-center space-y-4 mb-4">
-          <h1 className="text-5xl md:text-5xl lg:text-7xl text-bono-10 font-bold">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl text-bono-10 font-bold">
             {band.name}
             {playingDays.length > 0 && (
               <span
@@ -163,7 +163,7 @@ const BandPage = () => {
         <div className="mb-4 mt-8 w-64 h-64 md:w-96 md:h-96 lg:w-500 lg:h-500 relative">
           <Image src={imageUrl} alt={band.name} layout="fill" className="rounded-xl" objectFit="cover" />
         </div>
-        <p className="mt-4 w-full md:w-9/12 text-bono-10 text-base md:text-lg font-montserrat">{band.bio}</p>
+        <p className="mt-4 w-full md:w-9/12 text-bono-10 px-4 text-base md:text-lg font-montserrat">{band.bio}</p>
         {schedule && (
           <div className="mt-6 w-full md:w-9/12">
             {Object.entries(schedule).map(([day, acts]) => (
