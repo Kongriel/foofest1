@@ -67,23 +67,10 @@ const Schedule = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-center flex-wrap gap-y-3 space-x-4 my-4">
-        {["mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((day) => (
-          <button key={day} onClick={() => setSelectedDay(day)} className="bg-knap-10 border-2 hover:border-blue-600 border-gray-500 rounded-lg text-bono-10  py-4 px-6">
-            {dayNames[day].toUpperCase()}
-          </button>
-        ))}
-        <select onChange={(e) => setSelectedScene(e.target.value)} className="bg-bono-10 border-2 text-white hover:border-blue-600 border-gray-500 rounded-lg   py-4 px-8">
-          <option value="">All Scenes</option>
-          <option value="Midgard">MIDGARD</option>
-          <option value="Vanaheim">VANEHEIM</option>
-          <option value="Jotunheim">JOTUNHEIM</option>
-        </select>
-      </div>
-      <h1 className="text-center text-6xl font-semibold font-bebas text-bono-10 my-12">
+      <h1 className="text-center text-4xl sm:text-5xl md:text-6xl font-semibold font-bebas text-bono-10 my-12">
         FOOFEST Schedule
         <span
-          className="ml-4 font-bebas"
+          className="ml-2 sm:ml-4 font-bebas"
           style={{
             WebkitTextStroke: "1px black",
             color: "transparent",
@@ -92,6 +79,19 @@ const Schedule = () => {
           {dayNames[selectedDay].toUpperCase()}
         </span>
       </h1>
+      <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10">
+        {["mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((day) => (
+          <button key={day} onClick={() => setSelectedDay(day)} className="bg-knap-10 border-2 hover:border-blue-600 border-gray-500 rounded-lg text-bono-10 py-2 sm:py-4 px-4 sm:px-6 text-xs sm:text-sm md:text-base">
+            {dayNames[day].toUpperCase()}
+          </button>
+        ))}
+        <select onChange={(e) => setSelectedScene(e.target.value)} className="bg-bono-10 border-2 text-white hover:border-blue-600 border-gray-500 rounded-lg py-2 sm:py-4 px-4 sm:px-6 text-xs sm:text-sm md:text-base">
+          <option value="">All Scenes</option>
+          <option value="Midgard">MIDGARD</option>
+          <option value="Vanaheim">VANAHEIM</option>
+          <option value="Jotunheim">JOTUNHEIM</option>
+        </select>
+      </div>
       {error && <p className="text-red-500">{error}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {loading ? (

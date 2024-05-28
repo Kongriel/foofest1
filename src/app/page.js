@@ -16,7 +16,7 @@ import Knap2 from "./components/Knap2";
 export default function Home() {
   return (
     <main>
-      <section className=" mt-16">
+      <section className=" mt-36">
         <Herotekst />
         <Hero />
       </section>
