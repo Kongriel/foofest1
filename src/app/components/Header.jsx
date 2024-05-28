@@ -53,7 +53,7 @@ const Header = () => {
       </div>
 
       {/* Hamburger Icon */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-3">
         <div className="hidden md:block">
           <Knap className="hidden md:block" /> {/* Hide on tablet size */}
         </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import ScheduleLoading from "./ScheduleLoading";
 
 const Schedule = () => {
   const getCurrentDay = () => {
@@ -23,6 +24,7 @@ const Schedule = () => {
   const [selectedDay, setSelectedDay] = useState(getCurrentDay());
   const [selectedScene, setSelectedScene] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBands = fetch("https://winter-frill-lemon.glitch.me/bands").then((res) => res.json());
@@ -30,10 +32,12 @@ const Schedule = () => {
 
     Promise.all([fetchBands, fetchSchedule])
       .then(([bandsData, scheduleData]) => {
+        setLoading(false);
         setBands(bandsData);
         setSchedule(scheduleData);
       })
       .catch((err) => {
+        setLoading(false);
         console.error("Fetch error:", err);
         setError(err.message);
       });
@@ -71,7 +75,6 @@ const Schedule = () => {
         ))}
         <select onChange={(e) => setSelectedScene(e.target.value)} className="bg-bono-10 border-2 text-white hover:border-blue-600 border-gray-500 rounded-lg   py-4 px-8">
           <option value="">All Scenes</option>
-
           <option value="Midgard">MIDGARD</option>
           <option value="Vanaheim">VANEHEIM</option>
           <option value="Jotunheim">JOTUNHEIM</option>
@@ -91,22 +94,30 @@ const Schedule = () => {
       </h1>
       {error && <p className="text-red-500">{error}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {bandsForDayAndScene.map((band) => (
-          <div key={band.slug} className="max-w-sm mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-101">
-            <div style={{ width: "370px", height: "370px", position: "relative" }}>
-              <Image src={band.logo.startsWith("http") ? band.logo : `/${band.logo}`} alt={`${band.name} logo`} layout="fill" objectFit="cover" />
+        {loading ? (
+          <>
+            <ScheduleLoading width="370px" height="370px" />
+            <ScheduleLoading width="370px" height="370px" />
+            <ScheduleLoading width="370px" height="370px" />
+          </>
+        ) : (
+          bandsForDayAndScene.map((band) => (
+            <div key={band.slug} className="max-w-sm mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-101">
+              <div style={{ width: "370px", height: "370px", position: "relative" }}>
+                <Image src={band.logo.startsWith("http") ? band.logo : `/${band.logo}`} alt={`${band.name} logo`} layout="fill" objectFit="cover" />
+              </div>
+              <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2 text-bono-10">{band.name}</div>
+                <p className="text-bono-10">
+                  Genre: {band.genre}
+                  <br />
+                  Time: {band.start} - {band.end} on {band.scene}
+                </p>
+              </div>
             </div>
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2 text-bono-10">{band.name}</div>
-              <p className="text-bono-10">
-                Genre: {band.genre}
-                <br />
-                Time: {band.start} - {band.end} on {band.scene}
-              </p>
-            </div>
-          </div>
-        ))}
-        {bandsForDayAndScene.length === 0 && <p className="text-center text-white">No bands scheduled for this day.</p>}
+          ))
+        )}
+        {!loading && bandsForDayAndScene.length === 0 && <p className="text-center text-white">No bands scheduled for this day.</p>}
       </div>
     </div>
   );

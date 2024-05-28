@@ -167,7 +167,7 @@ const BandPage = () => {
       {/* New section to display similar bands */}
       <div className="mt-12 w-full text-center">
         <h2 className="text-5xl font-bold mb-8 text-bono-10">More bands in the same genre</h2>
-        <div className="flex justify-center flex-wrap gap-6 mb-10">
+        <div className="flex justify-center flex-wrap gap-8 mb-10">
           {similarBands.map((similarBand) => (
             <Link key={similarBand.slug} href={`/bands/${similarBand.slug}`} passHref>
               <div className="max-w-xs mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500  cursor-pointer">

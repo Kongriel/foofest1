@@ -3,7 +3,7 @@
 import React from "react";
 
 import Hero from "./components/Hero";
-import HeroText from "./components/HeroText";
+import HeroTekst from "./components/HeroTekst";
 import Knap1 from "./components/Knap1";
 import Centertext from "./components/Centertext";
 import Card from "./components/Card";
@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <main>
       <section className=" mt-16">
-        <HeroText />
+        <HeroTekst />
         <Hero />
       </section>
       <div className="flex justify-center mt-16 mb-44">
