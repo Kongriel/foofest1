@@ -1,4 +1,3 @@
-// components/Tickets.js
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 
@@ -214,8 +213,8 @@ const Tickets = () => {
   };
 
   return (
-    <div className="min-h-screen text-bono-10 flex flex-col items-center justify-center py-10">
-      <h1 className="text-4xl text-bono-10 font-bold mb-8">Select Your Tickets and Camping Options</h1>
+    <div className="min-h-screen text-bono-10 flex flex-col items-center px-4 justify-center py-10">
+      <h1 className="text-4xl text-bono-10 text-center font-bold mt-4 mb-8">Buy Tickets to FooFest'24</h1>
       {error && typeof error === "string" && <div className="text-red-500 mb-4">{error}</div>}
       {error && typeof error === "object" && (
         <div className="text-red-500 mb-4">
@@ -224,10 +223,11 @@ const Tickets = () => {
           ))}
         </div>
       )}
-      <form className="bg-knap-10 p-8 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleNextClick}>
-        <div className="flex flex-col items-center mb-8">
-          <div className="mb-6 w-full flex justify-between items-center">
-            <label className="text-lg text-bono-10">Regular Tickets (799,-)</label>
+      <form className="bg-knap-10 p-8 sm:p-16 rounded-lg shadow-lg w-full max-w-2xl" onSubmit={handleNextClick}>
+        <fieldset className="mb-5">
+          <legend className="text-lg font-semibold mb-2">Tickets</legend>
+          <div className="mb-1 w-full flex justify-between items-center">
+            <label className="text-base sm:text-lg text-bono-10">Regular Tickets (799,-)</label>
             <div className="flex items-center">
               <button type="button" onClick={() => setRegularTickets(Math.max(regularTickets - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
@@ -238,8 +238,8 @@ const Tickets = () => {
               </button>
             </div>
           </div>
-          <div className="mb-6 w-full flex justify-between items-center">
-            <label className="text-lg text-bono-10">VIP Tickets (1299,-)</label>
+          <div className=" w-full flex justify-between items-center">
+            <label className="text-base sm:text-lg text-bono-10">VIP Tickets (1299,-)</label>
             <div className="flex items-center">
               <button type="button" onClick={() => setVipTickets(Math.max(vipTickets - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
@@ -251,10 +251,14 @@ const Tickets = () => {
             </div>
           </div>
           {error && error.tickets && <div className="text-red-500 mb-4 w-full text-center">{error.tickets}</div>}
-          <div className="mb-6 w-full flex justify-between items-center">
-            <label className="text-lg text-bono-10">Prebook Camping Spot</label>
-            <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)} className="p-2 border border-gray-300 rounded">
-              <option value="">Select a camping area</option>
+        </fieldset>
+
+        <fieldset className="mb-2">
+          <legend className="text-lg font-semibold mb-2">Camping Options</legend>
+          <div className="mb-2 w-full flex justify-between items-center">
+            <label className="text-base sm:text-lg text-bono-10">Prebook Camping Spot</label>
+            <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)} className="p-1 sm:p-2 border border-gray-300 rounded w-52 text-base sm:text-md">
+              <option value="">Select Camping Area</option>
               {campingOptions.map((option) => (
                 <option key={option.area} value={option.area}>
                   {option.area} ({option.available} available spots)
@@ -264,11 +268,15 @@ const Tickets = () => {
           </div>
           {error && error.camping && <div className="text-red-500 mb-4 w-full text-center">{error.camping}</div>}
           <div className="mb-6 w-full flex justify-between items-center">
-            <label className="text-lg text-bono-10">Green Camping (249,-)</label>
-            <input type="checkbox" checked={greenCamping} onChange={(e) => setGreenCamping(e.target.checked)} className="form-checkbox h-5 w-5 text-blue-600" />
+            <label className="text-base sm:text-lg text-bono-10">Green Camping (249,-)</label>
+            <input type="checkbox" checked={greenCamping} onChange={(e) => setGreenCamping(e.target.checked)} className="form-checkbox h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
           </div>
-          <div className="mb-6 w-full flex justify-between items-center">
-            <label className="text-lg text-bono-10">2 Person Tent (299,- each)</label>
+        </fieldset>
+
+        <fieldset className="mb-4">
+          <legend className="text-lg font-semibold mb-2">Tents</legend>
+          <div className="mb-1 w-full flex justify-between items-center">
+            <label className="text-base sm:text-lg text-bono-10">2 Person Tent (299,- each)</label>
             <div className="flex items-center">
               <button type="button" onClick={() => setTent2Person(Math.max(tent2Person - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
@@ -279,8 +287,8 @@ const Tickets = () => {
               </button>
             </div>
           </div>
-          <div className="mb-6 w-full flex justify-between items-center">
-            <label className="text-lg text-bono-10">3 Person Tent (399,- each)</label>
+          <div className="mb-2 w-full flex justify-between items-center">
+            <label className="text-base sm:text-lg text-bono-10">3 Person Tent (399,- each)</label>
             <div className="flex items-center">
               <button type="button" onClick={() => setTent3Person(Math.max(tent3Person - 1, 0))} className="px-3 py-1 bg-gray-300 rounded-l text-xl">
                 -
@@ -291,30 +299,35 @@ const Tickets = () => {
               </button>
             </div>
           </div>
-          <div className="mb-6 w-full">
-            <label className="text-lg text-bono-10">Name</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" className="p-2 border bg-knap border-gray-300 rounded w-full" />
+        </fieldset>
+
+        <fieldset className="mb-1">
+          <legend className="text-lg font-semibold mb-2">Personal Information</legend>
+          <div className="mb-2 w-full">
+            <label className="text-base sm:text-lg text-bono-10">Name</label>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" className="p-2 border bg-knap border-gray-300 rounded w-full text-base sm:text-lg" />
           </div>
           {error && error.name && <div className="text-red-500 mb-4 w-full text-center">{error.name}</div>}
           <div className="mb-6 w-full">
-            <label className="text-lg text-bono-10">Email</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="p-2 border border-gray-300 rounded w-full" />
+            <label className="text-base sm:text-lg text-bono-10">Email</label>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="p-2 border border-gray-300 rounded w-full text-base sm:text-lg" />
           </div>
           {error && error.email && <div className="text-red-500 mb-4 w-full text-center">{error.email}</div>}
           <div className="mb-6 w-full">
-            <label className="text-lg text-bono-10">Phone Number</label>
-            <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Enter your phone number" className="p-2 border border-gray-300 rounded w-full" />
+            <label className="text-base sm:text-lg text-bono-10">Phone Number</label>
+            <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Enter your phone number" className="p-2 border border-gray-300 rounded w-full text-base sm:text-lg" />
           </div>
           {error && error.phoneNumber && <div className="text-red-500 mb-4 w-full text-center">{error.phoneNumber}</div>}
-          <div className="mb-6 w-full">
-            <p className="text-lg font-bold">Total Cost: {calculateTotalCost()},-</p>
-            <p className="text-sm text-gray-500">* Includes a fixed booking fee of 99,-</p>
-          </div>
-          {reservationId && timeLeft > 0 && <p className="text-red-500 mb-4">You have {formatTime(timeLeft)} to complete your reservation.</p>}
-          <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-lg w-full hover:bg-blue-700" disabled={!isCampingAvailable}>
-            Next
-          </button>
+        </fieldset>
+
+        <div className="mb-6 w-full">
+          <p className="text-lg font-bold">Total Cost: {calculateTotalCost()},-</p>
+          <p className="text-sm text-gray-500">* Includes a fixed booking fee of 99,-</p>
         </div>
+        {reservationId && timeLeft > 0 && <p className="text-red-500 mb-4">You have {formatTime(timeLeft)} to complete your reservation.</p>}
+        <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-lg w-full hover:bg-blue-700" disabled={!isCampingAvailable}>
+          Next
+        </button>
       </form>
     </div>
   );
