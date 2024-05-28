@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import SlugLoading from "@/app/components/SlugLoading";
 
 const BandPage = () => {
   const [band, setBand] = useState(null);
@@ -43,6 +44,7 @@ const BandPage = () => {
     }
     return null;
   };
+
   useEffect(() => {
     if (!slug) {
       setError("No band specified");
@@ -115,7 +117,6 @@ const BandPage = () => {
     fetchSimilarBands();
   }, [band]);
 
-  if (loadingBand || loadingSchedule) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!band) return <div>No band data available.</div>;
 
@@ -125,64 +126,77 @@ const BandPage = () => {
 
   return (
     <div className="flex flex-col mt-12 items-center justify-center ">
-      <div className="flex flex-col items-center text-center relative">
-        <div className="flex items-center justify-center space-x-4 mb-4">
-          <h1 className="text-7xl text-bono-10 font-bold">
-            {band.name}
-            {playingDays.length > 0 && (
-              <span
-                className="ml-4"
-                style={{
-                  WebkitTextStroke: "1px black",
-                  color: "transparent",
-                }}
-              >
-                {playingDays.join(", ")}
-              </span>
-            )}
-          </h1>
-        </div>
-        {currentStage && <div className="bg-green-500 text-white text-sm font-bold rounded-full px-4 py-1 mt-4">Live at {currentStage} right now</div>}
-
-        <div className="mb-4 mt-8">
-          <Image src={imageUrl} alt={band.name} width={500} height={500} className="rounded-xl" />
-        </div>
-        <p className="mt-4 w-9/12 text-bono-10 text-lg font-montserrat">{band.bio}</p>
-        {schedule && (
-          <div className="mt-6">
-            {Object.entries(schedule).map(([day, acts]) => (
-              <div key={day}>
-                <ul>
-                  {acts.map((act, index) => (
-                    <li className="text-bono-10 text-lg font-montserrat mb-8" key={index}>
-                      {act.start} - {act.end} at {act.stage}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+      {loadingBand || loadingSchedule ? (
+        <div className="flex flex-col items-center text-center relative">
+          <div className="flex items-center justify-center space-x-4 mb-4">
+            <SlugLoading width="w-36" height="h-36" extraClass="rounded-full" />
           </div>
-        )}
-      </div>
-      {/* New section to display similar bands */}
-      <div className="mt-12 w-full text-center">
-        <h2 className="text-5xl font-bold mb-8 text-bono-10">More bands in the same genre</h2>
-        <div className="flex justify-center flex-wrap gap-8 mb-10">
-          {similarBands.map((similarBand) => (
-            <Link key={similarBand.slug} href={`/bands/${similarBand.slug}`} passHref>
-              <div className="max-w-xs mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500  cursor-pointer">
-                <div style={{ width: "300px", height: "300px", position: "relative" }}>
-                  <Image src={similarBand.logo.startsWith("http") ? similarBand.logo : `/${similarBand.logo}`} alt={`${similarBand.name} logo`} layout="fill" objectFit="cover" />
-                </div>
-                <div className="px-6 py-4">
-                  <div className="font-bold text-xl mb-2 text-bono-10">{similarBand.name}</div>
-                  <p className="text-bono-10">Genre: {similarBand.genre}</p>
-                </div>
-              </div>
-            </Link>
-          ))}
+          <SlugLoading width="w-64" height="h-64" extraClass="mb-4 mt-8 rounded-xl" />
+          <SlugLoading width="w-3/4" height="h-8" extraClass="mt-4" />
+          <SlugLoading width="w-full" height="h-8" extraClass="mt-6" />
+          <SlugLoading width="w-full" height="h-8" extraClass="mt-6" />
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="flex flex-col items-center text-center relative">
+            <div className="flex items-center justify-center space-x-4 mb-4">
+              <h1 className="text-7xl text-bono-10 font-bold">
+                {band.name}
+                {playingDays.length > 0 && (
+                  <span
+                    className="ml-4"
+                    style={{
+                      WebkitTextStroke: "1px black",
+                      color: "transparent",
+                    }}
+                  >
+                    {playingDays.join(", ")}
+                  </span>
+                )}
+              </h1>
+            </div>
+            {currentStage && <div className="bg-green-500 text-white text-sm font-bold rounded-full px-4 py-1 mt-4">Live at {currentStage} right now</div>}
+            <div className="mb-4 mt-8">
+              <Image src={imageUrl} alt={band.name} width={500} height={500} className="rounded-xl" />
+            </div>
+            <p className="mt-4 w-9/12 text-bono-10 text-lg font-montserrat">{band.bio}</p>
+            {schedule && (
+              <div className="mt-6">
+                {Object.entries(schedule).map(([day, acts]) => (
+                  <div key={day}>
+                    <ul>
+                      {acts.map((act, index) => (
+                        <li className="text-bono-10 text-lg font-montserrat mb-8" key={index}>
+                          {act.start} - {act.end} at {act.stage}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          {/* New section to display similar bands */}
+          <div className="mt-12 w-full text-center">
+            <h2 className="text-5xl font-bold mb-8 text-bono-10">More bands in the same genre</h2>
+            <div className="flex justify-center flex-wrap gap-8 mb-10">
+              {similarBands.map((similarBand) => (
+                <Link key={similarBand.slug} href={`/bands/${similarBand.slug}`} passHref>
+                  <div className="max-w-xs mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500  cursor-pointer">
+                    <div style={{ width: "300px", height: "300px", position: "relative" }}>
+                      <Image src={similarBand.logo.startsWith("http") ? similarBand.logo : `/${similarBand.logo}`} alt={`${similarBand.name} logo`} layout="fill" objectFit="cover" />
+                    </div>
+                    <div className="px-6 py-4">
+                      <div className="font-bold text-xl mb-2 text-bono-10">{similarBand.name}</div>
+                      <p className="text-bono-10">Genre: {similarBand.genre}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
