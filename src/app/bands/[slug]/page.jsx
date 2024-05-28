@@ -187,7 +187,7 @@ const BandPage = () => {
           {similarBands.map((similarBand) => (
             <Link key={similarBand.slug} href={`/bands/${similarBand.slug}`} passHref>
               <div className="max-w-xs mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500 cursor-pointer">
-                <div style={{ width: "100%", height: "200px", position: "relative" }}>
+                <div style={{ width: "300px", height: "300px", position: "relative" }}>
                   <Image src={similarBand.logo.startsWith("http") ? similarBand.logo : `/${similarBand.logo}`} alt={`${similarBand.name} logo`} layout="fill" objectFit="cover" />
                 </div>
                 <div className="px-6 py-4">
