@@ -255,7 +255,7 @@ const Tickets = () => {
           <legend className="text-lg font-semibold mb-2">Camping Options</legend>
           <div className="mb-2 w-full flex justify-between items-center">
             <label className="text-base sm:text-lg text-bono-10">Prebook Camping Spot</label>
-            <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)} className="p-1 sm:p-2 border border-gray-300 rounded w-52 text-base sm:text-md">
+            <select id="area-select" aria-label="select-area" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)} className="p-1 sm:p-2 border border-gray-300 rounded w-52 text-base sm:text-md">
               <option value="">Select Camping Area</option>
               {campingOptions.map((option) => (
                 <option key={option.area} value={option.area}>
