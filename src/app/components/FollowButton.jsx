@@ -67,7 +67,7 @@ const FollowButton = ({ isOpen, toggleMenu }) => {
         {}
       </div>
       <div ref={hamburgerRef} className="absolute text-bono-10 text-5xl" aria-expanded={isOpen} role="button" tabIndex={0} aria-label="Menu Button">
-        <Hamburger toggled={isOpen} toggle={toggleMenu} color={isOpen ? "white" : "#36454D"} />
+        <Hamburger aria-label="menu" toggled={isOpen} toggle={toggleMenu} color={isOpen ? "white" : "#36454D"} />
       </div>
     </button>
   );

@@ -166,7 +166,7 @@ const BandPage = () => {
         </div>
         {currentStage && <div className="bg-green-500 text-white text-sm font-bold rounded-full px-4 py-1 mt-4">Live at {currentStage} right now</div>}
         <div className="mb-4 mt-8 w-64 h-64 md:w-96 md:h-96 lg:w-500 lg:h-500 relative">
-          <Image src={imageUrl} alt={band.name} layout="fill" className="rounded-xl" objectFit="cover" />
+          <Image src={imageUrl} alt={band.name} layout="fill" className="rounded-xl" objectFit="cover" priority />
         </div>
         <p className="mt-4 w-full md:w-9/12 text-bono-10 px-4 text-base md:text-lg font-montserrat">{band.bio}</p>
         {schedule && (
@@ -193,7 +193,7 @@ const BandPage = () => {
             <Link key={similarBand.slug} href={`/bands/${similarBand.slug}`} passHref>
               <div className="max-w-xs mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500 cursor-pointer">
                 <div style={{ width: "300px", height: "300px", position: "relative" }}>
-                  <Image src={similarBand.logo.startsWith("http") ? similarBand.logo : `/${similarBand.logo}`} alt={`${similarBand.name} logo`} layout="fill" objectFit="cover" />
+                  <Image src={similarBand.logo.startsWith("http") ? similarBand.logo : `/${similarBand.logo}`} alt={`${similarBand.name} logo`} layout="fill" objectFit="cover" loading="lazy" />
                 </div>
                 <div className="px-6 py-4">
                   <div className="font-bold text-lg md:text-xl mb-2 text-bono-10">{similarBand.name}</div>

@@ -1,4 +1,3 @@
-// FollowButton.js
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import Link from "next/link";
@@ -56,7 +55,7 @@ const FollowButton = ({ onClick }) => {
 
   return (
     <Link href="/booking">
-      <button ref={containerRef} onClick={onClick} className=" flex justify-center items-center relative w-40 h-20 cursor-pointer">
+      <button ref={containerRef} onClick={onClick} aria-label="Ticket" className=" flex justify-center items-center relative w-40 h-20 cursor-pointer">
         <div ref={circleRef} className="absolute flex bg-knap-10 justify-center items-center h-16 w-40 text-sm rounded-xl border-2 hover:border-blue-600 border-gray-500"></div>
         <div ref={hamburgerRef} className="absolute  hover:border-blue-600 text-xl">
           {" "}

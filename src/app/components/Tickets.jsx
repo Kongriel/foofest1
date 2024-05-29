@@ -267,7 +267,7 @@ const Tickets = () => {
           {error && error.camping && <div className="text-red-500 mb-4 w-full text-center">{error.camping}</div>}
           <div className="mb-6 w-full flex justify-between items-center">
             <label className="text-base sm:text-lg text-bono-10">Green Camping (249,-)</label>
-            <input type="checkbox" checked={greenCamping} onChange={(e) => setGreenCamping(e.target.checked)} className="form-checkbox h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+            <input type="checkbox" aria-label="checkbox" checked={greenCamping} onChange={(e) => setGreenCamping(e.target.checked)} className="form-checkbox h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
           </div>
         </fieldset>
 
