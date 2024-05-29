@@ -17,8 +17,8 @@ const Footer = () => {
         </div>
       </Link>
 
-      <Link href="/booking" className="flex-grow text-center flex justify-center">
-        <button className="px-8 py-4 md:text-base font-medium text-white bg-bono-10 rounded-md hover:bg-blue-700 transition duration-300 font-montserrat animate-bounce">Find billetter</button>
+      <Link href="/booking" className="flex-grow text-center flex justify-center transition duration-300 font-montserrat animate-bounce">
+        <button className="px-8 py-4 md:text-base font-medium text-white bg-bono-10 rounded-md hover:bg-blue-600  font-montserrat">Find billetter</button>
       </Link>
 
       <div className="flex-shrink-0 ">
