@@ -86,7 +86,8 @@ const Schedule = () => {
             {dayNames[day].toUpperCase()}
           </button>
         ))}
-        <select onChange={(e) => setSelectedScene(e.target.value)} className="bg-bono-10 border-2 text-white hover:border-blue-600 border-gray-500 rounded-lg py-2 sm:py-4 px-4 sm:px-6 text-xs sm:text-sm md:text-base">
+
+        <select id="scene-select" onChange={(e) => setSelectedScene(e.target.value)} className="bg-bono-10 border-2 text-white hover:border-blue-600 border-gray-500 rounded-lg py-2 sm:py-4 px-4 sm:px-6 text-xs sm:text-sm md:text-base focus:outline-none focus:border-blue-600" aria-label="Select a scene">
           <option value="">All Scenes</option>
           <option value="Midgard">MIDGARD</option>
           <option value="Vanaheim">VANAHEIM</option>
@@ -97,15 +98,15 @@ const Schedule = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {loading ? (
           <>
-            <ScheduleLoading width="370px" height="370px" />
-            <ScheduleLoading width="370px" height="370px" />
-            <ScheduleLoading width="370px" height="370px" />
+            <ScheduleLoading width="400px" height="370px" />
+            <ScheduleLoading width="400px" height="370px" />
+            <ScheduleLoading width="400px" height="370px" />
           </>
         ) : (
           bandsForDayAndScene.map((band) => (
             <Link key={band.slug} href={`/bands/${band.slug}`} passHref>
               <div className="max-w-sm mx-auto bg-knap-10 rounded-lg overflow-hidden shadow-lg transform transition duration-500 hover:scale-101 cursor-pointer">
-                <div style={{ width: "370px", height: "370px", position: "relative" }}>
+                <div style={{ width: "400px", height: "370px", position: "relative" }}>
                   <Image src={band.logo.startsWith("http") ? band.logo : `/${band.logo}`} alt={`${band.name} logo`} layout="fill" objectFit="cover" />
                 </div>
                 <div className="px-6 py-4">

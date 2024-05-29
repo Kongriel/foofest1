@@ -27,8 +27,8 @@ export default function Home() {
         <Centertext />
       </section>
       <section className="flex mb-12 flex-wrap justify-center items-center gap-8 w-fit p-12 mx-auto">
-        <Card title="FOOFEST 24" status="REGULAR" price="799,00" ticketType="regular" />
-        <Card title="FOOFEST 24" status="VIP" price="1299,00" ticketType="VIP" />
+        <Card title="FOOFEST 24" status="REGULAR" subtitle="Billetten giver dig adgang til festivalpladsen og alle koncerterne på Foofest 2024." price="799,00" ticketType="regular" />
+        <Card title="FOOFEST 24" status="VIP" subtitle="Billetten giver dig adgang til festivalpladsen, VIP lounger og alle koncerterne på Foofest 2024." price="1299,00" ticketType="VIP" />
       </section>
       <section className="flex justify-center mt-6 mb-24">
         <Knap2 />

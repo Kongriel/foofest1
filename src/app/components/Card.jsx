@@ -25,7 +25,7 @@ function Card({ title, status, subtitle, price, ticketType }) {
             FOO'24 <br /> ALL WEEK
           </h2>
           <p className="mt-2 font-semibold font-bebas text-black">{status} TICKET</p>
-          <p className="text-sm mt-1 mb-6 font-montserrat text-gray-800">Billetten giver dig adgang til festivalpladsen og alle koncerterne på Foofest 2024.</p>
+          <p className="text-sm mt-1 mb-6 font-montserrat text-gray-800">{subtitle}</p>
           <p className="text-4xl font-bold font-bebas text-black mt-12 group-hover:text-blue-500 group-focus:text-blue-500">{price} DKK</p>
         </div>
       </div>

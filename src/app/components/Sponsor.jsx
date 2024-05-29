@@ -4,7 +4,6 @@ import Image from "next/image";
 const SponsorWall = () => {
   const sponsors = [
     "https://assets-global.website-files.com/63619567f09fcef371836573/6638c5f424628a02698a8945_normal-p-500.png",
-
     "https://assets-global.website-files.com/63619567f09fcef371836573/63d8e79dd2064c3444053d1e_pureshots.svg",
     "https://assets-global.website-files.com/63619567f09fcef371836573/63d8e69a471b3d7aec35405f_drinx.svg",
     "https://assets-global.website-files.com/63619567f09fcef371836573/63d8eb232d9d5596cc1331a9_havana.svg",
