@@ -10,14 +10,14 @@ const Footer = () => {
   };
 
   return (
-    <footer className="flex justify-evenly items-center h-20 bg-knap-10 w-full shadow-md opacity-90 px-4">
+    <footer className="flex justify-between items-center h-20 bg-knap-10 w-full shadow-md opacity-90 px-4">
       <Link href="#" onClick={handleScrollToTop}>
         <div className="flex-shrink-0 cursor-pointer">
           <Image src="/Foofest-logo-2.png" alt="Footer Image" width={80} height={80} />
         </div>
       </Link>
 
-      <Link href="/booking" className="flex-grow text-center flex justify-center transition duration-300 font-montserrat animate-bounce">
+      <Link href="/booking" className=" text-center flex justify-center transition duration-300 font-montserrat animate-bounce">
         <button className="px-8 py-4 md:text-base font-medium text-white bg-bono-10 rounded-md hover:bg-blue-600  font-montserrat">Find billetter</button>
       </Link>
 
