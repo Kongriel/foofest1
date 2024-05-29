@@ -129,7 +129,7 @@ const PaymentForm = () => {
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg text-center">
-            <h2 className="text-3xl text-bono-10 font-bold mb-4">Congrats, brah!</h2>
+            <h2 className="text-3xl text-bono-10 font-bold mb-4">Congrats!</h2>
             <p className="text-lg text-bono-10">You are going to FooFest!</p>
           </div>
         </div>

@@ -123,7 +123,7 @@ function Clubjoin() {
         {formError && <div className="text-red-500 mb-4">{formError}</div>}
         {formSuccess && <div className="text-green-500 mb-4">{formSuccess}</div>}
         <div className="mb-4 flex items-start">
-          <input type="checkbox" className="mt-1 mr-2" {...register("agreement", { required: "You must agree to the terms" })} />
+          <input type="checkbox" className="mt-1 mr-2" aria-label="checkbox" {...register("agreement", { required: "You must agree to the terms" })} />
           <label className="text-sm">
             Jeg godkender FooFest{" "}
             <a href="#" className="text-blue-500 underline">
