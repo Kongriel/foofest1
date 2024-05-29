@@ -68,8 +68,8 @@ const Header = () => {
       </div>
 
       {/* Hamburger Icon */}
-      <div className="flex items-center -mr-8 space-x-3">
-        <div className="hidden md:block">
+      <div className="flex items-center -mr-6 space-x-3">
+        <div className="hidden md:block mr-6">
           <Knap className="hidden md:block" /> {/* Hide on tablet size */}
         </div>
         <div ref={hamburgerRef} tabIndex={0}>
