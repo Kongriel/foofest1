@@ -54,10 +54,17 @@ const FollowButton = ({ isOpen, toggleMenu }) => {
     };
   }, []);
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleMenu();
+    }
+  };
+
   return (
-    <button ref={containerRef} onClick={toggleMenu} className="z-30 overflow-hidden hover:border-blue-500 flex justify-center items-center relative w-40 h-40 cursor-pointer">
+    <button ref={containerRef} onClick={toggleMenu} onKeyDown={handleKeyDown} tabIndex={0} className="z-30 overflow-hidden hover:border-blue-500 flex justify-center items-center relative w-40 h-40 cursor-pointer" aria-label="Toggle Menu">
       <div ref={circleRef} className="absolute bg-knap-10 h-14 w-14 rounded-full hover:border-blue-500 border-2 border-gray-500 opacity-0">
-        {/* Circle initially invisible */}
+        {}
       </div>
       <div ref={hamburgerRef} className="absolute text-bono-10 text-5xl">
         <Hamburger toggled={isOpen} toggle={toggleMenu} color={isOpen ? "white" : "#36454D"} />
