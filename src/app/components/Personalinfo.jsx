@@ -35,7 +35,6 @@ const PersonalInfo = () => {
     event.preventDefault();
     if (validateForm()) {
       console.log("Form is valid", tickets);
-      // Navigate to the next page or perform other actions
     }
   };
 

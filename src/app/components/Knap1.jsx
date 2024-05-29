@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const FollowButton = ({ onClick }) => {
   const containerRef = useRef(null);
-  const contentRef = useRef(null); // Rename circleRef to contentRef for clarity
+  const contentRef = useRef(null);
   const hamburgerRef = useRef(null);
 
   useEffect(() => {
@@ -27,11 +27,10 @@ const FollowButton = ({ onClick }) => {
       const rect = container.getBoundingClientRect();
       const relX = e.clientX - rect.left;
       const relY = e.clientY - rect.top;
-      // Calculating the movement with a max of 200px in either direction
+
       const moveX = ((relX - rect.width / 2) / rect.width) * 50;
       let moveY = ((relY - rect.height / 2) / rect.height) * 50; // scale adjusted to limit the movement up to 200px
-      moveY = Math.max(Math.min(moveY, 70), -70); // Ensures that moveY stays within -100px to +100px range
-
+      moveY = Math.max(Math.min(moveY, 70), -70);
       gsap.to(content, {
         duration: 0.3,
         x: moveX / 2,
@@ -39,8 +38,8 @@ const FollowButton = ({ onClick }) => {
       });
       gsap.to(hamburger, {
         duration: 0.3,
-        x: moveX / 1, // Half the horizontal movement for subtle effect
-        y: moveY / 1, // Half the vertical movement
+        x: moveX / 1,
+        y: moveY / 1,
       });
     };
 

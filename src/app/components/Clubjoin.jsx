@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-// Define Supabase endpoint and API key
+// API key
 const SUPABASE_URL = "https://uheqbjthhbqzdpxflvdl.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoZXFianRoaGJxemRweGZsdmRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYyODQ1OTYsImV4cCI6MjAzMTg2MDU5Nn0.syrFaYAcqHuqHdRg8Yko3CbK-HVmSxta7Cf_u56gEns";
 
@@ -16,7 +16,7 @@ const submitToSupabase = async (data) => {
         "Content-Type": "application/json",
         apikey: SUPABASE_KEY,
         Authorization: `Bearer ${SUPABASE_KEY}`,
-        Prefer: "return=representation", // Ensure the response returns the newly inserted record
+        Prefer: "return=representation",
       },
       body: JSON.stringify({ name, email }),
     });

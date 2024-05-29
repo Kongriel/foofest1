@@ -15,9 +15,9 @@ function Hero() {
       .then((data) => {
         setLoading(false);
         if (data.length >= 14) {
-          const firstThree = [data[9], data[10], data[12]];
+          const firstThree = [data[10], data[13], data[12]];
 
-          const remaining = data.filter((_, index) => ![9, 10, 12].includes(index));
+          const remaining = data.filter((_, index) => ![9, 10, 12, 13].includes(index));
 
           setBands([...firstThree, ...remaining.slice(0, 14)]);
         } else {
@@ -81,7 +81,7 @@ function Hero() {
                   <Link key={band.slug} href={`/bands/${band.slug}`} passHref>
                     <div className={`group text-xxs relative text-center cursor-pointer ${index % 2 !== 0 ? "mt-[3em] hover:-rotate-9 transition-all duration-200 ease-in-out transform hover:scale-105" : "hover:-rotate-8 transition-all duration-300 ease-in-out transform hover:scale-105"}`}>
                       <div className="block w-24 h-24 md:w-28 md:h-28 lg:w-40 lg:h-40 overflow-hidden rounded-full mx-auto border-4 border-transparent border-white hover:border-blue-400 transition-all duration-300 ease-in-out transform">
-                        <Image src={band.logo.startsWith("https") ? band.logo : `/${band.logo}`} alt={band.name} layout="fill" objectFit="cover" className="rounded-full group-hover:opacity-50 transition-opacity duration-200 ease-in-out" />
+                        <Image src={band.logo.startsWith("http") ? band.logo : `/${band.logo}`} alt={band.name} layout="fill" objectFit="cover" className="rounded-full group-hover:opacity-50 transition-opacity duration-200 ease-in-out" />
                         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
                           <span className="text-white text-xxs md:text-lg">{band.name}</span>
                         </div>

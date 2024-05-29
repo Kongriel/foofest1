@@ -1,4 +1,3 @@
-// components/LoadingSkeleton.js
 import React from "react";
 
 function SlugLoading({ width, height, extraClass = "" }) {

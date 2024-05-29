@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const FollowButton = ({ onClick }) => {
   const containerRef = useRef(null);
-  const circleRef = useRef(null); // We will rename this to contentRef for clarity
+  const circleRef = useRef(null);
   const hamburgerRef = useRef(null);
 
   useEffect(() => {
@@ -14,12 +14,12 @@ const FollowButton = ({ onClick }) => {
     const hamburger = hamburgerRef.current;
 
     const handleMouseEnter = () => {
-      gsap.to(container, { duration: 0.3, width: 200, height: 100 }); // Adjusted height for rectangle
+      gsap.to(container, { duration: 0.3, width: 200, height: 100 });
       gsap.to(content, { duration: 0.3, scale: 1.1 });
     };
 
     const handleMouseLeave = () => {
-      gsap.to(container, { duration: 0.3, width: 150, height: 50 }); // Adjusted height for rectangle
+      gsap.to(container, { duration: 0.3, width: 150, height: 50 });
       gsap.to([content, hamburger], { duration: 0.3, scale: 1, x: 0, y: 0 });
     };
 
@@ -28,8 +28,8 @@ const FollowButton = ({ onClick }) => {
       const relX = e.clientX - rect.left;
       const relY = e.clientY - rect.top;
       const moveX = ((relX - rect.width / 2) / rect.width) * 40;
-      let moveY = ((relY - rect.height / 2) / rect.height) * 40; // scale adjusted to limit the movement up to 200px
-      moveY = Math.max(Math.min(moveY, 70), -70); // Ensures that moveY stays within -100px to +100px range
+      let moveY = ((relY - rect.height / 2) / rect.height) * 40;
+      moveY = Math.max(Math.min(moveY, 70), -70);
 
       gsap.to(content, {
         duration: 0.3,
@@ -38,8 +38,8 @@ const FollowButton = ({ onClick }) => {
       });
       gsap.to(hamburger, {
         duration: 0.3,
-        x: moveX / 1, // Half the horizontal movement for subtle effect
-        y: moveY / 1, // Half the vertical movement
+        x: moveX / 1,
+        y: moveY / 1,
       });
     };
 

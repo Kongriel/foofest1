@@ -9,14 +9,12 @@ const Tickets = () => {
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
   const timerRef = useRef(null);
   const [isCampingAvailable, setIsCampingAvailable] = useState(true);
-
   const [regularTickets, setRegularTickets] = useState(0);
   const [vipTickets, setVipTickets] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
   const [greenCamping, setGreenCamping] = useState(false);
   const [tent2Person, setTent2Person] = useState(0);
   const [tent3Person, setTent3Person] = useState(0);
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -187,7 +185,7 @@ const Tickets = () => {
   const handleNextClick = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      const totalCost = calculateTotalCost(); // Calculate the total cost
+      const totalCost = calculateTotalCost();
       const queryString = new URLSearchParams({
         regularTickets,
         vipTickets,
@@ -198,7 +196,7 @@ const Tickets = () => {
         name,
         email,
         phoneNumber,
-        totalCost, // Include total cost in the query string
+        totalCost,
       }).toString();
 
       await reserveSpot();
