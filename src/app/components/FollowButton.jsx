@@ -66,7 +66,7 @@ const FollowButton = ({ isOpen, toggleMenu }) => {
       <div ref={circleRef} className="absolute bg-knap-10 h-14 w-14 rounded-full hover:border-blue-500 border-2 border-gray-500 opacity-0">
         {}
       </div>
-      <div ref={hamburgerRef} className="absolute text-bono-10 text-5xl">
+      <div ref={hamburgerRef} className="absolute text-bono-10 text-5xl" aria-expanded={isOpen} role="button" tabIndex={0} aria-label="Menu Button">
         <Hamburger toggled={isOpen} toggle={toggleMenu} color={isOpen ? "white" : "#36454D"} />
       </div>
     </button>

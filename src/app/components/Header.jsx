@@ -72,27 +72,27 @@ const Header = () => {
         <div className="hidden md:block">
           <Knap className="hidden md:block" /> {/* Hide on tablet size */}
         </div>
-        <div className="" ref={hamburgerRef} tabIndex={0}>
-          <FollowButton className="" isOpen={isOpen} toggleMenu={toggleMenu} />
+        <div ref={hamburgerRef} tabIndex={0}>
+          <FollowButton isOpen={isOpen} toggleMenu={toggleMenu} />
         </div>
       </div>
 
       {/* Navigation Menu */}
       <div ref={navRef} className={`fixed top-0 right-0 z-20 bg-bono-10 h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} md:w-10/12 w-full`} style={{ clipPath: "ellipse(70% 100% at 100% 50%)" }}>
         <div className="flex flex-col items-end justify-center h-full text-center pr-10">
-          <div onClick={closeMenu} onKeyDown={(e) => handleNavItemKeyDown(e, "/booking")} className="mt-4 mb-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Booking">
+          <div onClick={() => (window.location.href = "/booking")} onKeyDown={(e) => handleNavItemKeyDown(e, "/booking")} className="mt-4 mb-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Booking">
             Billetter
           </div>
-          <div onClick={closeMenu} onKeyDown={(e) => handleNavItemKeyDown(e, "#")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="News">
+          <div onClick={() => (window.location.href = "#")} onKeyDown={(e) => handleNavItemKeyDown(e, "#")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="News">
             Nyheder
           </div>
-          <div onClick={closeMenu} onKeyDown={(e) => handleNavItemKeyDown(e, "/bands")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Line-up">
+          <div onClick={() => (window.location.href = "/bands")} onKeyDown={(e) => handleNavItemKeyDown(e, "/bands")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Line-up">
             Line-up
           </div>
-          <div onClick={closeMenu} onKeyDown={(e) => handleNavItemKeyDown(e, "/faq")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="FAQ">
+          <div onClick={() => (window.location.href = "/faq")} onKeyDown={(e) => handleNavItemKeyDown(e, "/faq")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="FAQ">
             FAQ
           </div>
-          <div onClick={closeMenu} onKeyDown={(e) => handleNavItemKeyDown(e, "/Live")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Live Now">
+          <div onClick={() => (window.location.href = "/Live")} onKeyDown={(e) => handleNavItemKeyDown(e, "/Live")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Live Now">
             Live Now
           </div>
         </div>
