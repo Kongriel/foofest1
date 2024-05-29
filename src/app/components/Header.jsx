@@ -73,7 +73,7 @@ const Header = () => {
           <Knap className="hidden md:block" /> {/* Hide on tablet size */}
         </div>
         <div ref={hamburgerRef} tabIndex={0}>
-          <FollowButton isOpen={isOpen} toggleMenu={toggleMenu} />
+          <FollowButton isOpen={isOpen} toggleMenu={toggleMenu} tabIndex={0} role="Open-menu" aria-label="Menu" />
         </div>
       </div>
 
