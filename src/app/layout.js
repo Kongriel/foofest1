@@ -7,18 +7,20 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "FooFest 24",
-  description: "An awesome madeup festival",
+  description: "An awesome made-up festival",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="mb-16">
+        <header role="banner" className="mb-16">
           <Header />
         </header>
-        <main id="main-content">{children}</main>
-        <footer>
+        <main role="main" id="main-content">
+          {children}
+        </main>
+        <footer role="contentinfo">
           <Footer />
         </footer>
       </body>
