@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
@@ -13,18 +13,34 @@ const PaymentForm = () => {
   });
   const [showPopup, setShowPopup] = useState(false);
 
-  const queryParams = new URLSearchParams(window.location.search);
-  const reservationId = queryParams.get("reservationId");
-  const totalCost = queryParams.get("totalCost");
-  const name = queryParams.get("name");
-  const email = queryParams.get("email");
-  const phoneNumber = queryParams.get("phoneNumber");
-  const regularTickets = queryParams.get("regularTickets");
-  const vipTickets = queryParams.get("vipTickets");
-  const selectedOption = queryParams.get("selectedOption");
-  const greenCamping = queryParams.get("greenCamping") === "true";
-  const tent2Person = queryParams.get("tent2Person");
-  const tent3Person = queryParams.get("tent3Person");
+  const [reservationId, setReservationId] = useState(null);
+  const [totalCost, setTotalCost] = useState(null);
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [regularTickets, setRegularTickets] = useState(null);
+  const [vipTickets, setVipTickets] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [greenCamping, setGreenCamping] = useState(null);
+  const [tent2Person, setTent2Person] = useState(null);
+  const [tent3Person, setTent3Person] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const queryParams = new URLSearchParams(window.location.search);
+      setReservationId(queryParams.get("reservationId"));
+      setTotalCost(queryParams.get("totalCost"));
+      setName(queryParams.get("name"));
+      setEmail(queryParams.get("email"));
+      setPhoneNumber(queryParams.get("phoneNumber"));
+      setRegularTickets(parseInt(queryParams.get("regularTickets")));
+      setVipTickets(parseInt(queryParams.get("vipTickets")));
+      setSelectedOption(queryParams.get("selectedOption"));
+      setGreenCamping(queryParams.get("greenCamping") === "true");
+      setTent2Person(parseInt(queryParams.get("tent2Person")));
+      setTent3Person(parseInt(queryParams.get("tent3Person")));
+    }
+  }, []);
 
   const nameRef = useRef();
   const numberRef = useRef();
@@ -82,7 +98,7 @@ const PaymentForm = () => {
       setShowPopup(true);
       setTimeout(() => {
         window.location.href = "/";
-      }, 7000);
+      }, 3000);
     } catch (error) {
       alert(error.message);
     }
@@ -139,9 +155,8 @@ const PaymentForm = () => {
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg text-center">
-            <h2 className="text-3xl text-bono-10 font-bold mb-4">Here is your Receipt</h2>
+            <h2 className="text-3xl text-bono-10 font-bold mb-4">Receipt</h2>
             <p className="text-lg text-bono-10 mb-4">Thank you for your purchase!</p>
-            <p className="text-lg text-bono-10 mb-4">Your reciept will be forwarded to your mail</p>
             <div className="text-left text-bono-10">
               <p>
                 <strong>Reservation ID:</strong> {reservationId}
@@ -155,24 +170,36 @@ const PaymentForm = () => {
               <p>
                 <strong>Phone Number:</strong> {phoneNumber}
               </p>
-              <p>
-                <strong>Regular Tickets:</strong> {regularTickets}
-              </p>
-              <p>
-                <strong>VIP Tickets:</strong> {vipTickets}
-              </p>
-              <p>
-                <strong>Camping Spot:</strong> {selectedOption}
-              </p>
-              <p>
-                <strong>Green Camping:</strong> {greenCamping ? "Yes" : "No"}
-              </p>
-              <p>
-                <strong>2 Person Tent:</strong> {tent2Person}
-              </p>
-              <p>
-                <strong>3 Person Tent:</strong> {tent3Person}
-              </p>
+              {regularTickets > 0 && (
+                <p>
+                  <strong>Regular Tickets:</strong> {regularTickets}
+                </p>
+              )}
+              {vipTickets > 0 && (
+                <p>
+                  <strong>VIP Tickets:</strong> {vipTickets}
+                </p>
+              )}
+              {selectedOption && (
+                <p>
+                  <strong>Camping Spot:</strong> {selectedOption}
+                </p>
+              )}
+              {greenCamping && (
+                <p>
+                  <strong>Green Camping:</strong> Yes
+                </p>
+              )}
+              {tent2Person > 0 && (
+                <p>
+                  <strong>2 Person Tent:</strong> {tent2Person}
+                </p>
+              )}
+              {tent3Person > 0 && (
+                <p>
+                  <strong>3 Person Tent:</strong> {tent3Person}
+                </p>
+              )}
               <p>
                 <strong>Total Cost:</strong> {totalCost} DKK
               </p>
