@@ -13,7 +13,6 @@ const PaymentForm = () => {
   });
   const [showPopup, setShowPopup] = useState(false);
 
-  // Get reservation details from URL query parameters
   const queryParams = new URLSearchParams(window.location.search);
   const reservationId = queryParams.get("reservationId");
   const totalCost = queryParams.get("totalCost");
