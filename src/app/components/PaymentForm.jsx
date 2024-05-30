@@ -14,7 +14,9 @@ const PaymentForm = () => {
   });
   const [showPopup, setShowPopup] = useState(false);
   const router = useRouter();
-  const reservationId = new URLSearchParams(window.location.search).get("reservationId");
+  const queryParams = new URLSearchParams(window.location.search);
+  const reservationId = queryParams.get("reservationId");
+  const totalCost = queryParams.get("totalCost");
 
   const nameRef = useRef();
   const numberRef = useRef();
@@ -122,7 +124,7 @@ const PaymentForm = () => {
             </div>
           </div>
           <button ref={submitButtonRef} type="submit" className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
-            Submit
+            Pay {totalCost} DKK
           </button>
         </form>
       </div>
