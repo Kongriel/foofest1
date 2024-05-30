@@ -73,22 +73,22 @@ const Header = () => {
       <div ref={navRef} className={`fixed top-0 right-0 z-20 bg-bono-10 h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} md:w-10/12 w-full`} style={{ clipPath: "ellipse(70% 100% at 100% 50%)" }}>
         <div className="flex flex-col items-end justify-center h-full text-center pr-10">
           <Link href="/booking" passHref>
-            <div className="mt-4 mb-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Booking" onClick={closeMenu}>
+            <div className="w-full py-4 px-8 mt-4 mb-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Booking" onClick={closeMenu}>
               Billetter
             </div>
           </Link>
           <Link href="/bands" passHref>
-            <div className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Line-up" onClick={closeMenu}>
+            <div className="w-full py-4 px-8 my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Line-up" onClick={closeMenu}>
               Line-up
             </div>
           </Link>
           <Link href="/faq" passHref>
-            <div className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="FAQ" onClick={closeMenu}>
+            <div className="w-full py-4 px-8 my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="FAQ" onClick={closeMenu}>
               FAQ
             </div>
           </Link>
           <Link href="/Live" passHref>
-            <div className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Live Now" onClick={closeMenu}>
+            <div className="w-full py-4 px-8 my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Live Now" onClick={closeMenu}>
               Live Now
             </div>
           </Link>
