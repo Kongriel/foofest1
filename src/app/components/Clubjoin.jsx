@@ -93,7 +93,8 @@ function Clubjoin() {
       </div>
 
       <form className="max-w-lg mx-auto" onSubmit={handleSubmit(onSubmit)}>
-        <div className="relative mb-4">
+        <label className=" text-base font-bebas">Tilmeld dig FooClub Her!</label>
+        <div className="relative mb-4 mt-3">
           <input type="text" className="w-full lg:w-12/12 p-8 bg-knap-10 border border-gray-600 rounded-xl placeholder-transparent focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Navn*" {...register("name", { required: "Navn is required" })} onFocus={() => setNameFocused(true)} onBlur={() => setNameFocused(false)} />
           <label className={`absolute left-4 top-4 text-bono-10 transition-all duration-200 ${nameFocused || nameValue ? "transform -translate-y-3 scale-75" : ""}`} style={{ color: "#36454D" }}>
             Navn
