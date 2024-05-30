@@ -5,8 +5,8 @@ import ScheduleLoading from "./ScheduleLoading";
 
 const Schedule = () => {
   const getCurrentDay = () => {
-    const dayOfWeek = new Date().getDay(); // Sunday - 0, Monday - 1, etc.
-    const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]; // Adjust order to match your schedule keys
+    const dayOfWeek = new Date().getDay();
+    const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
     return days[dayOfWeek];
   };
 
