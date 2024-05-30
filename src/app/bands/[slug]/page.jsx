@@ -168,7 +168,7 @@ const BandPage = () => {
         <div className="mb-4 mt-8 w-64 h-64 md:w-96 md:h-96  relative">
           <Image src={imageUrl} alt={band.name} layout="fill" className="rounded-xl" objectFit="cover" />
         </div>
-        <h3 className="mt-4 w-full md:w-9/12 text-bono-10 font-bold px-4 text-left text-base md:text-lg font-montserrat">Band Description</h3>
+        <h2 className="mt-4 w-full md:w-9/12 text-bono-10 font-bold px-4 text-left text-base md:text-lg font-montserrat">Band Description</h2>
         <p className="mt-2 w-full md:w-9/12 text-bono-10 px-4 text-left text-base md:text-lg font-montserrat">{band.bio}</p>
         {schedule && (
           <div className="mt-6">
