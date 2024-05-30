@@ -157,6 +157,7 @@ const PaymentForm = () => {
           <div className="bg-white p-8 rounded-lg text-center">
             <h2 className="text-3xl text-bono-10 font-bold mb-4">Receipt</h2>
             <p className="text-lg text-bono-10 mb-4">Thank you for your purchase!</p>
+            <p className="text-lg text-bono-10 mb-4">You will be forwarded an Email reciept!</p>
             <div className="text-left text-bono-10">
               <p>
                 <strong>Reservation ID:</strong> {reservationId}

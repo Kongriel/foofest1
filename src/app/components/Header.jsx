@@ -47,14 +47,6 @@ const Header = () => {
     };
   }, [navRef, hamburgerRef]);
 
-  const handleNavItemKeyDown = (e, href) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      closeMenu();
-      window.location.href = href;
-    }
-  };
-
   return (
     <header className="fixed top-0 left-0 right-0 flex justify-between rounded-xl bg-knap-10 items-center px-2 h-16 sm:h-20 md:h-24 z-50 text-bono-10">
       {/* Welcome Text */}
@@ -80,21 +72,26 @@ const Header = () => {
       {/* Navigation Menu */}
       <div ref={navRef} className={`fixed top-0 right-0 z-20 bg-bono-10 h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} md:w-10/12 w-full`} style={{ clipPath: "ellipse(70% 100% at 100% 50%)" }}>
         <div className="flex flex-col items-end justify-center h-full text-center pr-10">
-          <div onClick={() => (window.location.href = "/booking")} onKeyDown={(e) => handleNavItemKeyDown(e, "/booking")} className="mt-4 mb-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Booking">
-            Billetter
-          </div>
-          <div onClick={() => (window.location.href = "#")} onKeyDown={(e) => handleNavItemKeyDown(e, "#")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="News">
-            Nyheder
-          </div>
-          <div onClick={() => (window.location.href = "/bands")} onKeyDown={(e) => handleNavItemKeyDown(e, "/bands")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Line-up">
-            Line-up
-          </div>
-          <div onClick={() => (window.location.href = "/faq")} onKeyDown={(e) => handleNavItemKeyDown(e, "/faq")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="FAQ">
-            FAQ
-          </div>
-          <div onClick={() => (window.location.href = "/Live")} onKeyDown={(e) => handleNavItemKeyDown(e, "/Live")} className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Live Now">
-            Live Now
-          </div>
+          <Link href="/booking" passHref>
+            <div className="mt-4 mb-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Booking" onClick={closeMenu}>
+              Billetter
+            </div>
+          </Link>
+          <Link href="/bands" passHref>
+            <div className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Line-up" onClick={closeMenu}>
+              Line-up
+            </div>
+          </Link>
+          <Link href="/faq" passHref>
+            <div className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="FAQ" onClick={closeMenu}>
+              FAQ
+            </div>
+          </Link>
+          <Link href="/Live" passHref>
+            <div className="my-2 text-taupe-10 text-4xl cursor-pointer" tabIndex={0} role="link" aria-label="Live Now" onClick={closeMenu}>
+              Live Now
+            </div>
+          </Link>
         </div>
       </div>
     </header>
