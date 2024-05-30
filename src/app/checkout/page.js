@@ -98,7 +98,7 @@ const PaymentForm = () => {
       setShowPopup(true);
       setTimeout(() => {
         window.location.href = "/";
-      }, 3000);
+      }, 7000);
     } catch (error) {
       alert(error.message);
     }
