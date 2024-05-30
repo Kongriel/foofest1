@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
@@ -12,31 +12,26 @@ const PaymentForm = () => {
     focus: "",
   });
   const [showPopup, setShowPopup] = useState(false);
-  const [reservationData, setReservationData] = useState({});
-  const [error, setError] = useState(null);
+
+  // Get reservation details from URL query parameters
+  const queryParams = new URLSearchParams(window.location.search);
+  const reservationId = queryParams.get("reservationId");
+  const totalCost = queryParams.get("totalCost");
+  const name = queryParams.get("name");
+  const email = queryParams.get("email");
+  const phoneNumber = queryParams.get("phoneNumber");
+  const regularTickets = queryParams.get("regularTickets");
+  const vipTickets = queryParams.get("vipTickets");
+  const selectedOption = queryParams.get("selectedOption");
+  const greenCamping = queryParams.get("greenCamping") === "true";
+  const tent2Person = queryParams.get("tent2Person");
+  const tent3Person = queryParams.get("tent3Person");
 
   const nameRef = useRef();
   const numberRef = useRef();
   const expiryRef = useRef();
   const cvcRef = useRef();
   const submitButtonRef = useRef();
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const data = {
-      name: urlParams.get("name"),
-      email: urlParams.get("email"),
-      phoneNumber: urlParams.get("phoneNumber"),
-      regularTickets: urlParams.get("regularTickets"),
-      vipTickets: urlParams.get("vipTickets"),
-      selectedOption: urlParams.get("selectedOption"),
-      greenCamping: urlParams.get("greenCamping") === "true",
-      tent2Person: urlParams.get("tent2Person"),
-      tent3Person: urlParams.get("tent3Person"),
-      totalCost: parseFloat(urlParams.get("totalCost")), // Convert to a number
-    };
-    setReservationData(data);
-  }, []);
 
   const handleInputChange = (evt) => {
     const { name, value } = evt.target;
@@ -71,44 +66,33 @@ const PaymentForm = () => {
     }
   };
 
-  const handleSubmit = async (evt) => {
+  const confirmReservation = async () => {
+    try {
+      const response = await fetch("https://winter-frill-lemon.glitch.me/fullfill-reservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: reservationId,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      setShowPopup(true);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 7000);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const handleSubmit = (evt) => {
     evt.preventDefault();
     if (state.name && state.number.length === 16 && state.expiry.length === 4 && state.cvc.length === 3) {
-      setShowPopup(true);
-      try {
-        const response = await fetch("https://uheqbjthhbqzdpxflvdl.supabase.co/rest/v1/orders", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoZXFianRoaGJxemRweGZsdmRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYyODQ1OTYsImV4cCI6MjAzMTg2MDU5Nn0.syrFaYAcqHuqHdRg8Yko3CbK-HVmSxta7Cf_u56gEns",
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoZXFianRoaGJxemRweGZsdmRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYyODQ1OTYsImV4cCI6MjAzMTg2MDU5Nn0.syrFaYAcqHuqHdRg8Yko3CbK-HVmSxta7Cf_u56gEns",
-          },
-          body: JSON.stringify({
-            name: reservationData.name,
-            email: reservationData.email,
-            phone_number: reservationData.phoneNumber,
-            regular_tickets: reservationData.regularTickets,
-            vip_tickets: reservationData.vipTickets,
-            camping_spot: reservationData.selectedOption,
-            green_camping: reservationData.greenCamping,
-            tent_2_person: reservationData.tent2Person,
-            tent_3_person: reservationData.tent3Person,
-            total_cost: reservationData.totalCost,
-            paid: true,
-          }),
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Error: ${response.statusText} - ${errorText}`);
-        }
-
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 3000);
-      } catch (error) {
-        setError(error.message);
-      }
+      confirmReservation();
     } else {
       alert("Please fill out all fields correctly.");
     }
@@ -117,7 +101,6 @@ const PaymentForm = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-8">
       <h1 className="text-4xl font-bebas text-bono-10 font-bold mb-8">Payment Information</h1>
-      {error && <div className="text-red-500 mb-4">{error}</div>}
       <div className="flex flex-col md:flex-row items-center justify-center gap-12">
         <div className="scale-125 mb-8 md:mb-0">
           <Cards number={state.number} expiry={state.expiry} cvc={state.cvc} name={state.name} focused={state.focus} />
@@ -138,7 +121,7 @@ const PaymentForm = () => {
           <div className="flex justify-between mb-4">
             <div className="w-1/2 mr-2">
               <label className="block text-gray-700 font-bold mb-2" htmlFor="expiry">
-                Expiration (MM/YY)
+                Expiration (mm/yy)
               </label>
               <input type="text" name="expiry" placeholder="MM/YY" value={state.expiry} onChange={handleInputChange} onFocus={handleInputFocus} onBlur={handleInputBlur} onKeyPress={handleNumberKeyPress} ref={expiryRef} className="w-full px-3 py-3 bg-knap-10 rounded-md text-bono-10 focus:outline-none focus:ring-2 focus:ring-blue-500" inputMode="numeric" pattern="[0-9]*" maxLength="4" required />
             </div>
@@ -150,15 +133,51 @@ const PaymentForm = () => {
             </div>
           </div>
           <button ref={submitButtonRef} type="submit" className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
-            Submit
+            Pay {totalCost} DKK
           </button>
         </form>
       </div>
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg text-center">
-            <h2 className="text-3xl text-bono-10 font-bold mb-4">Congrats, brah!</h2>
-            <p className="text-lg text-bono-10">You are going to FooFest!</p>
+            <h2 className="text-3xl text-bono-10 font-bold mb-4">Here is your Receipt</h2>
+            <p className="text-lg text-bono-10 mb-4">Thank you for your purchase!</p>
+            <p className="text-lg text-bono-10 mb-4">Your reciept will also be forwarded to your mail</p>
+            <div className="text-left text-bono-10">
+              <p>
+                <strong>Reservation ID:</strong> {reservationId}
+              </p>
+              <p>
+                <strong>Name:</strong> {name}
+              </p>
+              <p>
+                <strong>Email:</strong> {email}
+              </p>
+              <p>
+                <strong>Phone Number:</strong> {phoneNumber}
+              </p>
+              <p>
+                <strong>Regular Tickets:</strong> {regularTickets}
+              </p>
+              <p>
+                <strong>VIP Tickets:</strong> {vipTickets}
+              </p>
+              <p>
+                <strong>Camping Spot:</strong> {selectedOption}
+              </p>
+              <p>
+                <strong>Green Camping:</strong> {greenCamping ? "Yes" : "No"}
+              </p>
+              <p>
+                <strong>2 Person Tent:</strong> {tent2Person}
+              </p>
+              <p>
+                <strong>3 Person Tent:</strong> {tent3Person}
+              </p>
+              <p>
+                <strong>Total Cost:</strong> {totalCost} DKK
+              </p>
+            </div>
           </div>
         </div>
       )}
